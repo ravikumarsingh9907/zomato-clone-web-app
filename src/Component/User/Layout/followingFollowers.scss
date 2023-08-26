@@ -1,0 +1,63 @@
+.following-followers-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .image-container {
+        height: 50px;
+        width: 50px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 50px;
+
+        img {
+            position: absolute;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .user-name-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        text-decoration: blink;
+        color: rgb(28, 28, 28);
+        padding-right: 5rem;
+
+        .name {
+            h2{
+                font-size: 1.1rem;
+                font-weight: 500;
+                letter-spacing: 0.01rem;
+                color: rgb(28, 28, 28);
+            }
+        }
+
+        .reviews-followers {
+            display: flex;
+            gap: 0.5rem;
+            
+            p {
+                font-size: 0.8rem;
+                color: rgb(105, 105, 105);
+                text-transform: capitalize;
+                letter-spacing: 0.05rem;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .remove-add-following-btn {
+        button {
+            border-radius: 5px;
+            background-color: transparent;
+            border: none;
+
+            i {
+                font-size: 2.2rem;
+                color: rgb(105, 105, 105);
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+.search-card-container {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 26rem;
+    text-decoration: blink;
+    color: rgb(28, 28, 28);
+    border-bottom: 1px solid #80808033;
+
+    .image-container {
+        .image {
+            width: 60px;
+            height: 60px;
+            overflow: hidden;
+            position: relative;
+
+            img {
+                position: absolute;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .about-search-container {
+        .search-name {
+            max-width: 40rem;
+            .name {
+                color: rgb(28, 28, 28);
+                font-weight: 500;
+                line-height: 2rem;
+            }
+        }
+    }
+}
+
+.not-found-data {
+    color: rgb(108, 108, 108);
+}

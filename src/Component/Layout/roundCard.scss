@@ -1,0 +1,47 @@
+.round-card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+
+    .round-card {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        text-decoration: blink;
+        color: rgb(28, 28, 28);
+
+        .image-container {
+            position: relative;
+            padding: 1rem;
+            overflow: hidden;
+
+            .image {
+                height: 8.9rem;
+                width: 8.9rem;
+                position: relative;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 5px;
+                border-radius: 120px;
+                overflow: hidden;
+
+                img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 80%;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        .name {
+            h6 {
+                font-size: 1.2rem;
+                font-weight: 500;
+                line-height: 1.2rem;
+            }
+        }
+    }
+}

@@ -1,0 +1,66 @@
+.card-container {
+    text-decoration: blink;
+    color: rgb(54, 54, 54);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .card-image-container {
+        .image {
+            height: 150px;
+            width: 225px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+
+            img {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .about-restaurant {
+        width: 225px;
+        .name-container {
+            h2 {
+                font-size: 1rem;
+            }
+        }
+
+        .rating-container {
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            p {
+                font-size: 0.9rem;
+            }
+
+            .rating {
+                padding: 0.1rem 0.5rem;
+                border-radius: 5px;
+                color: white;
+                background-color: green;
+                display: flex;
+                align-items: center;
+                gap: 0.2rem;
+
+                i, span {
+                    font-size: 0.8rem;
+                }
+            }
+
+            .rating-type {
+                font-weight: 300;
+            }
+        }
+
+        .address-container {
+            p {
+                font-size: 0.9rem;
+            }
+        }
+    }
+}

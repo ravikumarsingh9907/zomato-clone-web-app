@@ -1,0 +1,70 @@
+*{
+  margin: 0%;
+  padding: 0%;
+  font-family: Okra, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes scaleImage {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.loader {
+  animation: loader-movement 1s both linear infinite;
+}
+
+@keyframes loader-movement {
+  0% {
+      transform: rotate(0deg);
+  }
+
+  25% {
+      transform: rotate(90deg);
+  }
+
+  50% {
+      transform: rotate(180deg);
+  }
+
+  75% {
+      transform: rotate(270deg);
+  }
+
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+@keyframes pre-loader {
+  0% {
+    opacity: 0%;
+  }
+  50% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
+  }
+}
+
+@keyframes universal-loader {
+  0% {
+    width: 30%;
+  }
+
+  50% {
+    width: 65%;
+  }
+
+  100% {
+    width: 95%;
+  }
+}

@@ -1,0 +1,32 @@
+.review-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .follow-reviewer-container {
+        display: flex;
+        justify-content: space-between;
+
+        .follow-btn {
+            .btn {
+                padding: 0.8rem 1rem;
+                border: 1px solid rgb(239, 79, 95);
+                border-radius: 5px;
+                background-color: transparent;
+                color: rgb(239, 79, 95);
+                letter-spacing: 0.01rem;
+                font-size: 1rem;
+
+                i {
+                    animation: loader-movement 1s both linear infinite;
+                }
+            }
+
+            .following {
+                color: white;
+                background-color: rgb(239, 79, 95);
+            }
+        }
+    }
+}

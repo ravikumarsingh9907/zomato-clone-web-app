@@ -1,0 +1,40 @@
+.food-detail-nav-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 2rem;
+
+    .options {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            a {
+                text-decoration: blink;
+                color: rgb(105, 105, 105);
+                font-size: 1.5rem;
+                line-height: 2.7rem;
+            }
+
+            .active {
+                color: rgb(255, 126, 139);
+                border-bottom: 2px solid rgb(255, 126, 139);
+                z-index: 100;  
+            }
+        }
+    }
+
+    .divider {
+        padding: 1px;
+        background-color: rgba(105, 105, 105, 0.377);
+        position: absolute;
+        top: 95%;
+        width: 100%;
+    }
+}

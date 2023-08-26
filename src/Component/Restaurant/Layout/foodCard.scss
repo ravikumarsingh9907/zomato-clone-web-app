@@ -1,0 +1,58 @@
+.food-card-container {
+    display: flex;
+    gap: 1.5rem;
+
+    .image-container {
+        .image {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+
+            img {
+                position: absolute;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .about-food-container {
+        .food-name {
+            max-width: 40rem;
+            .name {
+                color: rgb(28, 28, 28);
+                font-weight: 500;
+                line-height: 2rem;
+            }
+        }
+        .food-price {
+            .price {
+                color: rgb(28, 28, 28);
+                font-weight: 300;
+                line-height: 2rem;
+                display: flex;
+                align-items: center;
+
+                i {
+                    font-size: 1.1rem;
+                }
+            }
+        }
+
+        .food-description {
+            margin-top: 1rem;
+            max-width: 39rem;
+
+            .description {
+                color: rgb(108, 108, 108);
+                line-height: 1.25rem;
+                letter-spacing: 0.05rem;
+
+                span {
+                    color: rgb(28, 28, 28);
+                }
+            }
+        }
+    }
+}

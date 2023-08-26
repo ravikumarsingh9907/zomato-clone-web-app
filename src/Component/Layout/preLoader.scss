@@ -1,0 +1,13 @@
+.universal-loader {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 100;
+    width: 100%;
+    animation: universal-loader 10s normal forwards ease-out;
+
+    .line {
+        padding: 2px;
+        background-color: rgb(251 0 25);
+    }
+}

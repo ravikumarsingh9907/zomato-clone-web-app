@@ -1,0 +1,105 @@
+@mixin header-item-alignment {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+@mixin header-max-width-set {
+    max-width: 65rem;
+    margin: auto;
+}
+
+@mixin image-height-width {
+    padding: 0.5rem;
+    width: 30px;
+    height: 25px;
+}
+
+.header-container {
+    @include header-max-width-set;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    gap: 2rem;
+
+    .delivery-dineout-container {
+        position: relative;
+        display: flex;
+        justify-content: flext-start;
+        gap: 1rem;
+
+        .delivery-container {
+            @include header-item-alignment;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgb(252, 38, 38);
+
+            .image-container {
+                border-radius: 50px;
+                overflow: hidden;
+                background: #f5f5aa;
+                padding: 0.3rem;
+
+                .image {
+                    @include image-height-width;
+                }
+            }
+
+            p {
+                font-size: 1.25rem;
+                letter-spacing: 0.1rem;
+                font-weight: 500;
+                color: rgb(252, 38, 38);
+            }
+        }
+
+        .dineout-container {
+            @include header-item-alignment;
+            padding-bottom: 1rem;
+
+            .image-container {
+                border-radius: 50px;
+                overflow: hidden;
+                padding: 0.5rem;
+
+                .image {
+                    @include image-height-width;
+                }
+            }
+
+            p {
+                font-size: 1.25rem;
+                letter-spacing: 0.1rem;
+                font-weight: 500;
+                color: gray;
+            }
+        }
+    }
+
+    .filter-container {
+        @include header-item-alignment;
+        margin-bottom: 2rem;
+
+        .filters-list {
+            @include header-item-alignment;
+            color: gray;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #80808059;
+
+            span {
+                font-size: 1rem;
+                line-height: 1.25rem;
+                letter-spacing: 0.025rem;
+                opacity: 85%;
+            }
+        }
+    }
+}
+
+.header-divider {
+    position: absolute;
+    padding: 0.5px;
+    width: 99.9%;
+    background-color: rgba(128, 128, 128, 0.192);
+   top: 22.4%;;
+}

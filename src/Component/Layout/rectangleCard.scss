@@ -1,0 +1,98 @@
+@mixin restaurant-text-align {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rectangle-card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-decoration: blink;
+    color: rgb(28, 28, 28);
+
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 5px;
+    }
+
+    .image-container {
+        overflow: hidden;
+        border-radius: 1rem;
+        width: 330px;
+        height: 250px;
+
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .description-container {
+        .name-and-rating {
+            @include restaurant-text-align;
+
+            .name {
+                margin-block-end: 0px;
+                font-weight: 500;
+                font-size: 1.25rem;
+                max-width: 80%;
+                color: rgb(28, 28, 28);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .rating {
+                display: flex;
+                align-items: center;
+                background-color: rgb(58, 183, 87);
+                padding: 0.1rem 0.3rem;
+                border-radius: 5px;
+                color: white;
+
+                p {
+                    font-weight: 600;
+                }
+
+                span {
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .description {
+            @include restaurant-text-align;
+            color: gray;
+            line-height: 2.2rem;
+            padding-bottom: 1rem;
+
+            p {
+                font-size: 0.9rem;
+            }
+        }
+
+        .max-safety-banner {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: gray;
+            padding-top: 0.5rem;
+            border-top: 1px solid #8080803b;
+
+            img {
+                width: 55px;
+            }
+
+            span {
+                font-size: 0.8rem;
+            }
+        }
+    }
+}

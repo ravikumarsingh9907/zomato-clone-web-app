@@ -1,0 +1,109 @@
+.profile-card-wrapper {
+    background: linear-gradient(rgba(0, 0, 0, 0.13) 22.25%, rgba(0, 0, 0, 0.5) 55.5%) center center / cover no-repeat, url('../../Asset/profile-cover-img.jpeg');
+    background-position: center;
+    background-size: cover;
+    color: white;
+
+    .profile-card-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 3rem 1rem;
+
+        .profile-image-name-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .image-container {
+                .image {
+                    width: 160px;
+                    height: 160px;
+                    border-radius: 100px;
+                    border: 2px solid white;
+                    overflow: hidden;
+                    position: relative;
+
+                    img {
+                        position: absolute;
+                        object-fit: cover;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+
+            .name-container {
+                .name {
+                    font-size: 1.57rem;
+                    font-weight: 500;
+                    line-height: 2.5rem;
+                }
+
+                .place {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                    
+                    span {
+                        font-size: 0.9rem;
+                        font-weight: 300;
+                    }
+                }
+             }
+        }
+
+        .profile-followers-reviews-edit-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: end;
+
+            .edit-profile {
+                .edit {
+                    padding: 0.5rem 1rem;
+                    background: border-box rgb(239, 79, 95);
+                    border: none;
+                    color: white;
+                    border-radius: 5px;
+
+                    span, i {
+                        font-size: 1rem;
+                        font-weight: 300;
+                    }
+
+                    i {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+
+            .following-followers {
+                display: flex;
+
+                .list {
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    padding: 0rem 1rem;
+                    border-right: 1px solid white;
+
+                    span {
+                        color: white;
+                        font-weight: 300;
+                        font-size: 1.25rem;
+                    }
+
+                    .count {
+                        font-weight: 600;
+                        font-size: 1.5rem;
+                    }
+                }
+
+                .followers {
+                    border-right: none !important;
+                }
+            }
+        }
+    }
+}

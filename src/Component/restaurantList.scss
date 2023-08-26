@@ -1,0 +1,27 @@
+.restaurant-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    max-width: 70rem;
+    margin: auto;
+
+    .heading-container {
+        padding: 2rem;
+
+        .heading {
+            color: rgb(28, 28, 28);
+            line-height: 1.2;
+            font-weight: 500;
+            font-size: 2rem;
+        }
+    }
+
+    .restaurant-list-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+}

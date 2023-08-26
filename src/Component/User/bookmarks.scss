@@ -1,0 +1,50 @@
+.bookmark-wrapper {
+    margin-left: 1.5rem;
+
+    .bookmark-heading {
+        padding: 1.5rem 0rem;
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 500;
+        }
+    }
+
+    .list-container {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .list-container-loader {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        animation: pre-loader 1s forwards linear infinite;
+
+        .bookmark-card-loader {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            justify-content: center;
+
+            .image-loader {
+                width: 240px;
+                height: 170px;
+                background-color: rgb(181 181 181 / 37%);
+            }
+
+            .name-container-loader {
+                width: 175px;
+                height: 20px;
+                background-color: rgb(181 181 181 / 37%);
+            }
+
+            .location-container-loader {
+                width: 125px;
+                height: 10px;
+                background-color: rgb(181 181 181 / 37%);
+            }
+        }
+    }
+}

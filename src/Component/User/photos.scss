@@ -1,0 +1,47 @@
+.photos-wrapper {
+    margin-left: 1.5rem;
+
+    .photos-heading {
+        padding: 1.5rem 0rem;
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 500;
+        }
+    }
+
+    .list-container {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+
+        .image-container {
+            width: 165px;
+            height: 165px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 5px;
+
+            img {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .list-container-loader {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        animation: pre-loader 1s forwards linear infinite;
+
+        .image-container-loader {
+            width: 165px;
+            height: 165px;
+            background-color: rgb(181 181 181 / 37%);
+            border-radius: 5px;
+        }
+    }
+}

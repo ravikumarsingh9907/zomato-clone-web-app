@@ -1,0 +1,17 @@
+.profile-page-wrapper {
+    max-width: 69rem;
+    margin: auto;
+
+    .profile-content-container {
+        display: flex;
+        margin-top: 2rem;
+
+        .sidebar {
+            width: 30%;
+        }
+
+        .show-activity {
+            width: 70%;
+        }
+    }
+}

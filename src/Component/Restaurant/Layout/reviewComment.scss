@@ -1,0 +1,85 @@
+.review-comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .rating-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .rating {
+            display: flex;
+            align-items: center;
+            color: white;
+            gap: 0.1rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+
+            span {
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+
+            i {
+                display: flex;
+                font-size: 0.8rem;
+                padding-top: 0.1rem;
+            }
+        }
+
+        .delivery {
+            p {
+                font-weight: 500;
+                font-size: 0.8rem;
+                letter-spacing: 0.01rem;
+                color: rgb(28, 28, 28);
+            }
+        }
+
+        .created-at-container {
+            margin-left: 0.5rem;
+            p {
+                color: rgb(156, 156, 156);
+                font-size: 1rem;
+                font-weight: 300;
+                letter-spacing: 0.01rem;
+            }
+        }
+    }
+
+    .comment-container {
+        p {
+            font-weight: 300;
+            font-size: 1.25rem;
+            letter-spacing: 0.01rem;
+            color: rgb(105, 105, 105);
+        }
+    }
+
+    .photos-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        .photos {
+            width: 275px;
+            height: 150px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+
+            img {
+                position: absolute;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .likes-comment-count-container {
+        .likes-comment-count {
+            color: rgb(156, 156, 156);
+        }
+    }
+}

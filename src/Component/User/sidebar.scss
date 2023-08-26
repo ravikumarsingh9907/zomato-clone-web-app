@@ -1,0 +1,36 @@
+.profile-sidebar-wrapper {
+    width: 100%;
+    border: 1px solid #8080800f;
+    border-radius: 10px;
+
+    .heading-container {
+        padding: 1rem;
+        padding-bottom: 0.5rem;
+
+        .heading {
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            font-size: 1.25rem;
+            color: rgb(130, 130, 130);
+        }
+    }
+
+    .list-container {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 1rem;
+
+        a {
+            text-decoration: blink;
+            color: rgb(54, 54, 54);
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            font-weight: 300;
+        }
+
+        .active {
+            background-image: linear-gradient(to right, rgba(255, 0, 0, 0), rgb(235 153 153 / 40%));
+            border-left: 3px solid rgb(255, 126, 139);
+        }
+    }
+}
