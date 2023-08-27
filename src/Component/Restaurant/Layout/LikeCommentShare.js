@@ -80,7 +80,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
 
     const handleCommentSubmission = async (e) => {
         e.preventDefault();
-        if(loggedInUser.error) {
+        if (loggedInUser.error) {
             handleFormVisibility('form-container');
             handleLoginForm();
             return;
@@ -105,8 +105,8 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
     }
 
     const handleEditCommentToggle = (e) => {
-       setIsEditable(true);
-       setEditedComment(EditedCommentRef.current.textContent);
+        setIsEditable(true);
+        setEditedComment(EditedCommentRef.current.textContent);
     }
 
     const handleEditCommentChange = (e) => {
@@ -121,7 +121,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify({comment: editedComment})
+                body: JSON.stringify({ comment: editedComment })
             });
 
             const editComment = await editResponse.json();
@@ -162,29 +162,29 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
         <div className='like-comment-share-container'>
             <div className='like-comment-share-detail'>
                 {isLiked || <form method='delete' className='like-container liked' onClick={handleLikeEvent}>
-                    {isLoading ? <i class='bx bx-loader-alt loader'></i> : <i class='bx bx-like'></i>}
+                    {isLoading ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bx-like'></i>}
                     <span className='like'>Helpful</span>
                 </form>}
                 {!isLiked || <form method='post' className='like-container' onClick={handleLikeEvent}>
-                    <i class='bx bx-like'></i>
+                    <i className='bx bx-like'></i>
                     <span className='like'>Helpful</span>
                 </form>}
                 {!commentVisibility ? <div className='comment-container' onClick={handleCommentVisibilty}>
-                    <i class='bx bx-message-square-dots'></i>
+                    <i className='bx bx-message-square-dots'></i>
                     <span className='comment'>Comment</span>
                 </div> : <div className='comment-container active' onClick={handleCommentVisibilty}>
-                    <i class='bx bx-message-square-dots'></i>
+                    <i className='bx bx-message-square-dots'></i>
                     <span className='comment'>Comment</span>
                 </div>}
                 <div className='share-container'>
-                    <i class='bx bx-share bx-flip-horizontal' ></i>
+                    <i className='bx bx-share bx-flip-horizontal' ></i>
                     <span className='share'>Share</span>
                 </div>
             </div>
             {commentVisibility && <div className='comment-wrapper'>
                 <form onSubmit={handleCommentSubmission} className='comment-box-container'>
                     <input name='textarea' cols='139' rows='2' placeholder='Write your comment' value={commentValue} onChange={handleOnChangeValue} />
-                    {commentSubmissionProcess && <i class='bx bx-loader-alt loader'></i>}
+                    {commentSubmissionProcess && <i className='bx bx-loader-alt loader'></i>}
                 </form>
                 <div className='comment-list-container'>
                     {renderComments}

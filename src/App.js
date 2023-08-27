@@ -10,6 +10,7 @@ import LocationProvider from './Context/locationProvider';
 import ReviewProvider from './Context/reviewProvider';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import FormProvider from './Context/formProvider';
+import SearchProvider from './Context/searchProvider';
 import FoodCardList, { loader as DishesLoader } from './Component/Restaurant/FoodCardList';
 import RestaurantGallery, { loader as restaurantGalleryLoader } from './Component/Restaurant/RestaurantGallery';
 import RestaurantReviews, { loader as restaurantReviewsLoader } from './Component/Restaurant/Reviews';
@@ -24,7 +25,9 @@ const router = createBrowserRouter([
     element: (
       <FormProvider>
         <LocationProvider>
-          <Navbar />
+          <SearchProvider>
+            <Navbar />
+          </SearchProvider>
           <Forms />
         </LocationProvider>
       </FormProvider>
@@ -43,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/restaurants/:id',
-        element:<RestaurantDetail />,
+        element: <RestaurantDetail />,
         loader: restaurantDetailLoader,
         action: addToBookmarkAction,
         children: [

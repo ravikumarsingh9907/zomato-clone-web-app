@@ -66,7 +66,7 @@ export default function WriteComment() {
         <div className={isFormVisibile}>
             <div className='overlay'></div>
             <form className='write-review-container'>
-                <i class='bx bx-x close-btn' onClick={handleFormVisibility}></i>
+                <i className='bx bx-x close-btn' onClick={handleFormVisibility}></i>
                 <div className='heading-container'>
                     <h2 className='heading'>Feedback</h2>
                 </div>
@@ -74,7 +74,7 @@ export default function WriteComment() {
                     <ul className='start-container'>
                         {[1, 2, 3, 4, 5].map((star) => {
                             return (
-                                <li className='start'><i class='bx bx-star'
+                                <li className='start'><i className='bx bx-star'
                                     key={star}
                                     onClick={() => handleStarClick(star)}
                                     style={{
@@ -95,7 +95,7 @@ export default function WriteComment() {
                     <label for='file-upload'>Upload photos</label>
                     <input type='file' id='file-upload' className='upload-photos' multiple onChange={handleFileUpload} />
                 </div>
-                <button type='submit' className='submit-btn' onClick={handleFormData}>{isLoading ? <i class='bx bx-loader-alt loader' ></i> : 'Submit'}</button>
+                <button type='submit' className='submit-btn' onClick={handleFormData}>{isLoading ? <i className='bx bx-loader-alt loader' ></i> : 'Submit'}</button>
             </form>
         </div>
     )

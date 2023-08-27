@@ -8,18 +8,20 @@ export default function ProfileCard({ edit, data }) {
     const [isFollow, setIsFollow] = useState(false);
     let { profile, profilePicture, reviews } = useLoaderData();
     const [style, setStyle] = useState('100%');
-    const [totalPhotosPosted, setTotalPhotosPosted] = useState([]);
+    const [totalPhotosPosted, setTotalPhotosPosted] = useState(0);
     const navigation = useNavigation();
 
     useEffect(() => {
+        let count = 0;
         reviews.forEach(review => {
-            console.log(review);
-            review.images.forEach(image => {
-                console.log([...totalPhotosPosted, image]);
-                setTotalPhotosPosted(image);
-            })
+            review.images.forEach((image) => {
+                count += 1;
+            });
         });
-    }, []);
+
+        setTotalPhotosPosted(count);
+        //eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         if (navigation.state === 'submitting' || navigation.state === 'loading') {
@@ -50,10 +52,6 @@ export default function ProfileCard({ edit, data }) {
                     </div>
                     <div className='name-container'>
                         <p className='name'>{profile.fullname}</p>
-                        {/* <p className='place'> */}
-                        {/* <span className="material-symbols-outlined">location_on</span> */}
-                        {/* <span>City, State</span> */}
-                        {/* </p> */}
                     </div>
                 </div>
                 <div className='profile-followers-reviews-edit-container'>
@@ -79,7 +77,7 @@ export default function ProfileCard({ edit, data }) {
                             <span className='name'>Reviews</span>
                         </p>
                         <p className='photos list'>
-                            <span className='count'>{totalPhotosPosted.length}</span>
+                            <span className='count'>{totalPhotosPosted}</span>
                             <span className='name'>Photos</span>
                         </p>
                         <p className='followers list'>

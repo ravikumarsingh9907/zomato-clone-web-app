@@ -7,9 +7,9 @@ export default function ReviewComment({ data, reviewLikes, comments }) {
 
     const createdAt = moment(data.createdAt).endOf('hour').fromNow();
     const renderPhotos = data.images.length > 0 && data.images.map(image => {
-        return(
+        return (
             <div className='photos'>
-                <img src={image} alt='img'/>
+                <img src={image} alt='img' />
             </div>
         )
     })
@@ -27,9 +27,9 @@ export default function ReviewComment({ data, reviewLikes, comments }) {
     return (
         <div className='review-comment-container'>
             <div className='rating-container'>
-                <div className='rating' style={{backgroundColor: ratingColor}}>
+                <div className='rating' style={{ backgroundColor: ratingColor }}>
                     <span className='digit'>{data.rating}</span>
-                    <i class='bx bxs-star'></i>
+                    <i className='bx bxs-star'></i>
                 </div>
                 <div className='delivery'>
                     <p>DELIVERY</p>

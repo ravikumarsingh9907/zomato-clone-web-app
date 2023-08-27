@@ -1,7 +1,7 @@
 import './Profile.scss'
 import ProfileCard from '../Component/User/PorfileCard';
 import Sidebar from '../Component/User/Sidebar';
-import { Outlet } from 'react-router';
+import { Outlet, redirect } from 'react-router';
 
 const activity = {
     heading: 'Activity',
@@ -49,14 +49,18 @@ export default function Profile() {
 }
 
 export async function loader({params}) {
-    const profileResponse = await fetch('http://localhost:3300/users/'+params.id, {
+    const profileResponse = await fetch('http://localhost:3300/users/me', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
 
     const profile = await profileResponse.json();
+    if(profile.error) {
+        return redirect(`/user/${params.id}/reviews`)
+    }
 
     const profilePictureResponse = await fetch(`http://localhost:3300/users/${profile._id}/avatar`, {
         method: 'GET',
@@ -72,16 +76,15 @@ export async function loader({params}) {
     }
 
 
-    const getFollowers = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
+    const getReviews = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
         method: 'GET',
     });
 
-    const followers = await getFollowers.json();
-    console.log(followers);
+    const reviews = await getReviews.json();
     
     return {
         profile,
         profilePicture,
-        followers,
+        reviews,
     };
 }

@@ -93,9 +93,9 @@ export default function ReviewCard({ data, follow }) {
             <div className='follow-reviewer-container'>
                 {window.location.pathname.startsWith('/profile') ? <RestaurantCard data={data.brand} edit='false' /> : <ReviewerDetail data={data.user} edit='false' />}
                 {!follow && !isFollowing && !isLoggedInUser ? <form method='post' className='follow-btn'>
-                    <button className='btn' value={data.user._id} onClick={handleFollowClick}>{!followResponse ? 'Follow' : <i class='bx bx-loader-alt bx-flip-horizontal' ></i>}</button>
+                    <button className='btn' value={data.user._id} onClick={handleFollowClick}>{!followResponse ? 'Follow' : <i className='bx bx-loader-alt bx-flip-horizontal' ></i>}</button>
                 </form> : !follow && !isLoggedInUser ? <form method='delete' className='follow-btn'>
-                    <button className='btn following' value={data.user._id} onClick={handleFollowClick}>{!followResponse ? 'Following' : <i class='bx bx-loader-alt bx-flip-horizontal' ></i>}</button>
+                    <button className='btn following' value={data.user._id} onClick={handleFollowClick}>{!followResponse ? 'Following' : <i className='bx bx-loader-alt bx-flip-horizontal' ></i>}</button>
                 </form> : ''}
             </div>
             <ReviewComment data={data} reviewLikes={reviewLikes} comments={reviewComments} />

@@ -6,14 +6,15 @@ import { locationContext } from '../Context/location-context';
 import { formContext } from '../Context/form-context';
 import { Outlet, Link, useLoaderData, Form, redirect } from 'react-router-dom';
 import SearchCard from './Layout/SearchCard';
+import { searchContext } from '../Context/search-context';
 
 export default function Navbar() {
-    const {user, profilePicture} = useLoaderData();
+    const { user, profilePicture } = useLoaderData();
     const { handleFormVisibility, handleLoginForm } = useContext(formContext);
     const [searchSuggestion, setSearchSuggestion] = useState([]);
     const [isProfileOptions, setIsProfileOptions] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
     const { handleLocation, location } = useContext(locationContext);
+    const { isOpen, handleIsOpen } = useContext(searchContext);
 
     const handleSignUpClick = () => {
         handleFormVisibility('form-container')
@@ -39,10 +40,10 @@ export default function Navbar() {
 
             const { brands } = await response.json();
             setSearchSuggestion(brands);
-            setIsOpen(true);
+            handleIsOpen(true);
         } else {
             setSearchSuggestion([]);
-            setIsOpen(false);
+            handleIsOpen(false);
         }
     }
 
@@ -70,7 +71,7 @@ export default function Navbar() {
     });
 
     return (
-        <>  
+        <>
             <div className='navbar-container'>
                 <div className='logo-container'>
                     <Link to='/'><img src={zomatoLogo} alt='zomato' /></Link>
@@ -86,6 +87,12 @@ export default function Navbar() {
                     <div className='search-box-container'>
                         <span className="material-symbols-outlined">search</span>
                         <input className='search' placeholder='Search for restaurant, cuisine or a dish' onKeyUp={handleApiCall} />
+
+                        {isOpen && <div className='toggle-suggestions-wrapper'>
+                            <div className='suggestions'>
+                                {searchSuggestion.length > 0 ? renderSuggestions : <SearchCard />}
+                            </div>
+                        </div>}
                     </div>
                 </div>
                 {user.error && <div className='login-signup-container'>
@@ -116,11 +123,6 @@ export default function Navbar() {
                 </div>
                 }
             </div>
-            {isOpen && <div className='toggle-suggestions-wrapper'>
-                <div className='suggestions'>
-                    {searchSuggestion.length > 0 ? renderSuggestions : <SearchCard />}
-                </div>
-            </div>}
             <>
                 <Outlet />
             </>
@@ -145,7 +147,7 @@ export async function loader() {
 
     let profilePicture;
 
-    if(responseProfilePicture.status !== 400) {
+    if (responseProfilePicture.status !== 400) {
         profilePicture = responseProfilePicture.url;
     }
 
@@ -165,7 +167,7 @@ export async function action() {
     });
 
     const logout = await logoutResponse.json();
-    if(logout) {
+    if (logout) {
         return redirect(window.location.pathname);
     } else {
         return logout;
