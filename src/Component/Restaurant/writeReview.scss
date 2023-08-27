@@ -1,0 +1,111 @@
+.write-review-wrapper {
+    .write-review-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+
+        .close-btn {
+            position: absolute;
+            top: 3%;
+            left: 90%;
+            font-size: 2.5rem;
+            color: rgb(105, 105, 105);
+            z-index: 100;
+        }
+
+        .heading-container {
+            color: rgb(105, 105, 105);
+            margin-bottom: 1rem;
+            position: relative;
+
+            .heading {
+                font-weight: 400;
+            }
+        }
+
+        .rating-container {
+            .start-container {
+                list-style: none;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                justify-content: center;
+
+                li {
+                    i {
+                        font-size: 3rem;
+                    }
+                }
+            }
+        }
+
+        .comment-container {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            label {
+                color: rgb(105, 105, 105);
+                font-size: 1rem;
+            }
+
+            .comment {
+                border: 1px solid rgb(155, 156, 156);
+                font-size: 1.2rem;
+                outline: none;
+                border-radius: 5px;
+            }
+        }
+
+        .upload-photos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            label {
+                align-self: start;
+                color: rgb(105, 105, 105);
+                font-size: 1rem;
+            }
+
+            .upload-photos {
+                text-align: start;
+                background-color: rgb(0 0 0 / 9%);
+                padding: 0.5rem;
+                border-radius: 5px;
+                font-size: 1rem;
+                color: rgb(105, 105, 105);
+            }
+        }
+
+        .submit-btn {
+            padding: 0.7rem 1rem;
+            font-size: 1.25rem;
+            border-radius: 0.4rem;
+            border: none;
+        }
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0%;
+        width: 100%;
+        z-index: 5;
+        height: 100vh;
+        background-color: rgb(0 0 0 / 63%);
+    }
+}
+
+.hidden {
+    display: none;
+}

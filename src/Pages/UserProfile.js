@@ -68,9 +68,16 @@ export async function loader({params}) {
         profilePicture = profilePictureResponse.url;
     }
 
+    const getReviews = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
+        method: 'GET',
+    });
+
+    const reviews = await getReviews.json();
+
     return {
         profile,
-        profilePicture
+        profilePicture,
+        reviews,
     };
 }
 

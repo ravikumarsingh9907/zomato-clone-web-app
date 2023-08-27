@@ -7,7 +7,7 @@ import { formContext } from '../../../Context/form-context';
 import RestaurantCard from './RestaurantCard';
 import { useLoaderData } from 'react-router';
 
-export default function ReviewCard({ data }) {
+export default function ReviewCard({ data, follow }) {
     const { loggedInUser } = useLoaderData();
     const [isFollowing, setIsFollowing] = useState(false);
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
@@ -92,9 +92,9 @@ export default function ReviewCard({ data }) {
         <div className='review-card-container'>
             <div className='follow-reviewer-container'>
                 {window.location.pathname.startsWith('/profile') ? <RestaurantCard data={data.brand} edit='false' /> : <ReviewerDetail data={data.user} edit='false' />}
-                {!isFollowing && !isLoggedInUser ? <form method='post' className='follow-btn'>
+                {!follow && !isFollowing && !isLoggedInUser ? <form method='post' className='follow-btn'>
                     <button className='btn' value={data.user._id} onClick={handleFollowClick}>{!followResponse ? 'Follow' : <i class='bx bx-loader-alt bx-flip-horizontal' ></i>}</button>
-                </form> : !isLoggedInUser ? <form method='delete' className='follow-btn'>
+                </form> : !follow && !isLoggedInUser ? <form method='delete' className='follow-btn'>
                     <button className='btn following' value={data.user._id} onClick={handleFollowClick}>{!followResponse ? 'Following' : <i class='bx bx-loader-alt bx-flip-horizontal' ></i>}</button>
                 </form> : ''}
             </div>

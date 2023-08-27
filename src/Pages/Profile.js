@@ -71,8 +71,17 @@ export async function loader({params}) {
         profilePicture = profilePictureResponse.url;
     }
 
+
+    const getFollowers = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
+        method: 'GET',
+    });
+
+    const followers = await getFollowers.json();
+    console.log(followers);
+    
     return {
         profile,
-        profilePicture
+        profilePicture,
+        followers,
     };
 }

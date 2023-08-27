@@ -1,28 +1,21 @@
 import { reviewContext } from "./review-context";
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router";
+import { useState } from "react";
 
 export default function ReviewProvider(props) {
-    const [commentVisibility, setCommentVisibilty] = useState(false);
-    const [reviews, setReviews] = useState([]);
-    const { loggedInUser } = useLoaderData();
+    const [isFormVisibile, setIsFormVisible] = useState('write-review-wrapper hidden');
 
-    useEffect(() => {
-        (async () => {
-            const reviewsResponse = await fetch(`http://localhost:3300${window.location.pathname}`, {
-                method: 'GET',
-            });
-
-            const reviews = await reviewsResponse.json();
-            setReviews(reviews);
-        })();
-    }, [reviews]);
+    const handleReviewFormVisibility = (value) => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+        document.body.style.overflow = 'hidden';
+        setIsFormVisible(value);
+    }
 
     const reviewProvider = {
-        reviews,
-        loggedInUser,
-        commentVisibility,
-        setCommentVisibilty,
+        isFormVisibile,
+        handleReviewFormVisibility,
     }
 
     return (
