@@ -72,10 +72,9 @@ export default function WriteComment() {
                 </div>
                 <div className='rating-container'>
                     <ul className='start-container'>
-                        {[1, 2, 3, 4, 5].map((star) => {
+                        {[1, 2, 3, 4, 5].map((star, index) => {
                             return (
-                                <li className='start'><i className='bx bx-star'
-                                    key={star}
+                                <li className='start' key={star}><i className='bx bx-star'
                                     onClick={() => handleStarClick(star)}
                                     style={{
                                         cursor: 'pointer',
@@ -88,11 +87,11 @@ export default function WriteComment() {
                     </ul>
                 </div>
                 <div className='comment-container'>
-                    <label for='comment'>Write your feedback</label>
+                    <label htmlFor='comment'>Write your feedback</label>
                     <textarea id='comment' className='comment' cols='50' rows='10' onChange={handleFeedbackOnChange}></textarea>
                 </div>
                 <div className='upload-photos-container'>
-                    <label for='file-upload'>Upload photos</label>
+                    <label htmlFor='file-upload'>Upload photos</label>
                     <input type='file' id='file-upload' className='upload-photos' multiple onChange={handleFileUpload} />
                 </div>
                 <button type='submit' className='submit-btn' onClick={handleFormData}>{isLoading ? <i className='bx bx-loader-alt loader' ></i> : 'Submit'}</button>

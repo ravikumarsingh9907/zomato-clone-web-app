@@ -110,11 +110,11 @@ export default function Navbar() {
                     {isProfileOptions && <div className='toggle-profile-options'>
                         <ul className='options'>
                             <li className='list' onClick={handleProfileOptions}><Link to={`/profile/${user._id}/reviews`}>Profile</Link></li>
-                            <li className='list'><Link to={`/profile/${user._id}/bookmarks`}>Bookmarks</Link></li>
-                            <li className='list'><Link to={`/profile/${user._id}/reviews`}>Reviews</Link></li>
-                            <li className='list'><Link to={`/profile/${user._id}/followers`}>Network</Link></li>
-                            <li className='list'><Link to={`/profile/${user._id}/followers`}>Find Friends</Link></li>
-                            <li className='list'><Link to={`/profile/${user._id}/settings`}>Settings</Link></li>
+                            <li className='list' onClick={handleProfileOptions}><Link to={`/profile/${user._id}/bookmarks`}>Bookmarks</Link></li>
+                            <li className='list' onClick={handleProfileOptions}><Link to={`/profile/${user._id}/reviews`}>Reviews</Link></li>
+                            <li className='list' onClick={handleProfileOptions}><Link to={`/profile/${user._id}/followers`}>Network</Link></li>
+                            <li className='list' onClick={handleProfileOptions}><Link to={`/profile/${user._id}/followers`}>Find Friends</Link></li>
+                            <li className='list' onClick={handleProfileOptions}><Link to={`/profile/${user._id}/settings`}>Settings</Link></li>
                             <Form action='/logout' method='post' className='list'>
                                 <button>Log out</button>
                             </Form>

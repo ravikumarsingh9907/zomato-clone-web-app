@@ -30,7 +30,7 @@ export default function ProfileReviews() {
     },[navigation]);
 
     const renderReviews = Reviews.map(item => {
-        return <ReviewCard data={item} follow='false' />
+        return <ReviewCard data={item} follow='false' key={item._id} />
     });
 
     return(

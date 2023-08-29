@@ -5,6 +5,7 @@ import LocationProvider from '../Context/locationProvider';
 import RestaurantList from "../Component/RestaurantList";
 import { useNavigation } from "react-router";
 import UniversalLoader from '../Component/Layout/PreLoader'
+import Footer from "../Component/Footer";
 
 export default function Restaurant() {
     const navigation = useNavigation();
@@ -17,6 +18,7 @@ export default function Restaurant() {
                 <LocationProvider>
                     <RestaurantList />
                 </LocationProvider>
+                <Footer />
             </div> : <UniversalLoader />
             }
         </FormProvider>

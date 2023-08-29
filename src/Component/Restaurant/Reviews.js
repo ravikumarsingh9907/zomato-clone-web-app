@@ -1,6 +1,6 @@
 import ReviewCard from './Layout/ReviewCard';
 import './reviews.scss';
-import { useLoaderData, useNavigation } from 'react-router';
+import { useLoaderData, useNavigation, useParams } from 'react-router';
 import { useState, useEffect, useContext } from 'react';
 import OnlineOrderLoader from './Loaders/OrdersLoader';
 import GalleryLoader from './Loaders/PhotosLoader';
@@ -10,12 +10,16 @@ import NotFound from '../User/Layout/NotFound';
 import noFoundReview from '../../Asset/reviews-nothing-here-yet.avif';
 import WriteReview from './WriteReview';
 import { reviewContext } from '../../Context/review-context';
+import { formContext } from '../../Context/form-context';
 
 export default function Reviews() {
-    const { reviews } = useLoaderData();
+    const { loggedInUser } = useLoaderData();
+    const [reviews, setReviews] = useState([]);
     const navigation = useNavigation();
     const [renderLoader, setRenderLoader] = useState('');
-    const { handleReviewFormVisibility } = useContext(reviewContext);
+    const { handleReviewFormVisibility, isFormVisibile } = useContext(reviewContext);
+    const { handleFormVisibility } = useContext(formContext);
+    const { id } = useParams();
 
     useEffect(() => {
         if (navigation.location && navigation.location.pathname.endsWith('/gallery') && !navigation.formMethod) {
@@ -31,40 +35,55 @@ export default function Reviews() {
         }
     }, [navigation]);
 
+    useEffect(() => {
+        (async () => {
+            const reviewsResponse = await fetch(`http://localhost:3300/restaurants/${id}/reviews`, {
+                method: 'GET',
+            });
+
+            const reviews = await reviewsResponse.json();
+            setReviews(reviews)
+        })();
+        //eslint-disable-next-line
+    }, [isFormVisibile, reviews])
+
+    const handleOnClickFormVisibility = () => {
+        if (loggedInUser.error) {
+            handleFormVisibility('form-container')
+        } else {
+            handleReviewFormVisibility('write-review-wrapper')
+        }
+    }
+
     const renderCards = reviews.map(review => {
         return (
-            <ReviewCard data={review} />
+            <ReviewCard data={review}  key={review._id}/>
         )
     });
 
-    const handleFormVisibility = () => {
-        
-        handleReviewFormVisibility('write-review-wrapper')
-    }
-
     return (
         <>
-            {reviews.length > 0 ? navigation.state === 'loading' && !navigation.formMethod ? renderLoader
+            {navigation.state === 'loading' && !navigation.formMethod ? renderLoader
                 : <div className='reviews-wrapper'>
                     <WriteReview />
                     <div className='heading-write-review-container'>
                         <div className='heading-container'>
-                            <p className='heading'>{reviews[0].brand.name} Reviews</p>
+                            <p className='heading'>{reviews.length > 0 && reviews[0].brand.name} Reviews</p>
                         </div>
-                        <div className='write-review' onClick={handleFormVisibility}>
+                        <div className='write-review' onClick={handleOnClickFormVisibility}>
                             <i className='bx bx-plus'></i>
                             <span className='btn'>Write</span>
                         </div>
                     </div>
-                    <div className='list-container'>
+                    {reviews.length > 0 ? <div className='list-container'>
                         {renderCards}
-                    </div>
-                </div> : <NotFound image={noFoundReview} description='Nothing here yet.' />}
+                    </div> : <NotFound image={noFoundReview} description='Nothing here yet.' />}
+                </div>}
         </>
     )
 }
 
-export async function loader({params}) {
+export async function loader({ params }) {
     const loggedInUserResponse = await fetch('http://localhost:3300/users/me', {
         method: 'GET',
         headers: {

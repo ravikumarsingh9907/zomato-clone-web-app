@@ -2,6 +2,7 @@ import './Profile.scss'
 import ProfileCard from '../Component/User/PorfileCard';
 import Sidebar from '../Component/User/Sidebar';
 import { Outlet, redirect } from 'react-router';
+import Footer from '../Component/Footer';
 
 const activity = {
     heading: 'Activity',
@@ -44,6 +45,7 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

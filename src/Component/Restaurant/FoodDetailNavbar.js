@@ -32,10 +32,7 @@ export default function FoodDertailNavbar() {
                 </li>
                 <li className='list' onClick={handleScrollOnClick}>
                     <NavLink to={`/restaurants/${brand._id}/gallery`} className={({ isActive }) => isActive ? 'active' : undefined} end>Photos</NavLink>
-                </li>
-                <li className='list'>
-                    <NavLink to='/' className={({ isActive }) => isActive ? 'active' : undefined}>Menu</NavLink>
-                </li>
+                </li>  
             </ul>
             <div className='divider'></div>
         </div>

@@ -4,11 +4,12 @@ import Sidebar from '../Component/User/Sidebar';
 import { Outlet, redirect } from 'react-router';
 import { useContext } from 'react';
 import { formContext } from '../Context/form-context';
+import Footer from '../Component/Footer';
 
 const activity = {
     heading: 'Activity',
     item: [
-        {   
+        {
             id: 'act1',
             name: 'Reviews',
             url: 'reviews',
@@ -34,21 +35,24 @@ const activity = {
 export default function UserProfile() {
     const { loggedInUser } = useContext(formContext);
     return (
-        <div className='profile-page-wrapper'>
-            <ProfileCard edit='false' data={loggedInUser}/>
-            <div className='profile-content-container'>
-                <div className='sidebar'>
-                    <Sidebar data={activity} />
-                </div>
-                <div className='show-activity'>
-                    <Outlet />
+        <>
+            <div className='profile-page-wrapper'>
+                <ProfileCard edit='false' data={loggedInUser} />
+                <div className='profile-content-container'>
+                    <div className='sidebar'>
+                        <Sidebar data={activity} />
+                    </div>
+                    <div className='show-activity'>
+                        <Outlet />
+                    </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
     )
 }
 
-export async function loader({params}) {
+export async function loader({ params }) {
     const profileResponse = await fetch('http://localhost:3300/users/' + params.id, {
         method: 'GET',
         headers: {
@@ -81,7 +85,7 @@ export async function loader({params}) {
     };
 }
 
-export async function action({request, params}) {
+export async function action({ request, params }) {
     const followResponse = await fetch(`http://localhost:3300/users/${params.id}/follow`, {
         method: request.method,
         headers: {

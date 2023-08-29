@@ -3,7 +3,8 @@ import Header from '../Component/Header';
 import RestaurantList from '../Component/RestaurantList';
 import LocationProvider from '../Context/locationProvider';
 import { useLoaderData, useNavigation } from 'react-router';
-import UniversalLoader from '../Component/Layout/PreLoader'
+import UniversalLoader from '../Component/Layout/PreLoader';
+import Footer from "../Component/Footer";
 
 export default function Home() {
     const { brands, cuisines } = useLoaderData();
@@ -24,6 +25,7 @@ export default function Home() {
             <LocationProvider>
                 <RestaurantList data={brands} />
             </LocationProvider>
+            <Footer />
         </div> : <UniversalLoader />
         }
         </>

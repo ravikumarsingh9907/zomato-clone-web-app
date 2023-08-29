@@ -6,8 +6,9 @@ import { formContext } from '../../Context/form-context';
 export default function RestDetailHeader() {
     const {handleLoginForm, handleFormVisibility} = useContext(formContext);
     const [isBookMarked, setIsBookMarked] = useState(false);
-    const { brand, bookmarks } = useLoaderData();
+    const { brand, bookmarks, reviews } = useLoaderData();
     const [style, setStyle] = useState('100%');
+    const [averageRating, setAverageRating] = useState(0);
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -16,7 +17,15 @@ export default function RestDetailHeader() {
         } else {
             setStyle('100%');
         }
-    }, [navigation]);
+    }, [navigation, reviews]);
+
+    useEffect(() => {
+        const initialValue = 0;
+        const totalReview = reviews && reviews.reduce((acc, crr) => acc + crr.rating, initialValue);
+        const average = totalReview / reviews.length;
+        setAverageRating(average.toFixed(2));
+        //eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         const data = bookmarks && bookmarks.length > 0 && bookmarks.filter((bookmark) => {
@@ -40,8 +49,8 @@ export default function RestDetailHeader() {
 
     const descriptionArr = brand.description.split(',');
 
-    const renderDescription = descriptionArr.map(item => {
-        return <Link to={`/restaurants?query=${item}`}>{item}, </Link>
+    const renderDescription = descriptionArr.map((item, index) => {
+        return <Link to={`/restaurants?query=${item}`} key={item+'-'+index}>{item}, </Link>
     });
 
     return (
@@ -79,11 +88,11 @@ export default function RestDetailHeader() {
                 </div>
                 <div className='rating-and-review-container'>
                     <div className='rating'>
-                        <span className='digit'>3.7</span>
-                        <span className="material-symbols-outlined star">star_rate</span>
+                        <span className='digit'>{typeof averageRating === 'number' ? averageRating : 0}</span>
+                        <i className='bx bxs-star star'></i>
                     </div>
                     <div className='rating-count'>
-                        <span className='digit'>27.6K</span>
+                        <span className='digit'>{reviews && reviews.length ? reviews.length : 0}</span>
                         <span className='note'><a href='/'>Delivery Reviews</a></span>
                     </div>
                 </div>
