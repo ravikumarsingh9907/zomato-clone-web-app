@@ -1,15 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import './reviewComment.scss';
 import moment from 'moment';
+import { imageMagnifier } from '../../../Context/image-magnifier';
 
 export default function ReviewComment({ data, reviewLikes, comments }) {
     const [ratingColor, setRatingColor] = useState('');
+    const { handleIsOpen, elementRef } = useContext(imageMagnifier);
+
+    const handleImageMagnifier = (e) => {
+        elementRef.current = e.target;
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+        handleIsOpen(true);
+        document.body.style.overflow = 'hidden';
+    }
 
     const createdAt = moment(data.createdAt).endOf('hour').fromNow();
     const renderPhotos = data.images.length > 0 && data.images.map(image => {
         return (
-            <div className='photos'>
-                <img src={image} alt='img' />
+            <div className='photos' onClick={handleImageMagnifier}>
+                <img src={image} alt='img' ref={elementRef} />
             </div>
         )
     })

@@ -9,6 +9,7 @@ import noPhotosFound from '../../Asset/reviews-nothing-here-yet.avif';
 import UnviersalLoader from '../Layout/PreLoader';
 import ReviewCard from '../Restaurant/Layout/ReviewCard';
 import ReviewsLoader from '../Restaurant/Loaders/ReviewLoader';
+import FullScreenImageShow from '../FullScreenImageShow';
 
 export default function ProfileReviews() {
     const {Reviews} = useLoaderData();
@@ -37,6 +38,7 @@ export default function ProfileReviews() {
         <>
             {navigation.state !== 'loading' ?
                 <div className='user-reviews-wrapper'>
+                    <FullScreenImageShow />
                     <div className='reviews-heading'>
                         <h2 className='heading'>Reviews</h2>
                     </div>

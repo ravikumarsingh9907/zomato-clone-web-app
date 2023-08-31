@@ -1,17 +1,30 @@
 import './restaurantGallery.scss';
 import { useLoaderData, useNavigation } from 'react-router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import OnlineOrderLoader from './Loaders/OrdersLoader';
 import GalleryLoader from './Loaders/PhotosLoader';
 import ReviewsLoader from './Loaders/ReviewLoader';
 import UnviersalLoader from '../Layout/PreLoader';
 import NotFound from '../User/Layout/NotFound';
 import noFoundPhotos from '../../Asset/photos-not-posted-yet.avif';
+import FullScreenImageShow from '../FullScreenImageShow';
+import { imageMagnifier } from '../../Context/image-magnifier';
 
 export default function RestaurantGallery() {
     const { brand } = useLoaderData();
     const navigation = useNavigation();
     const [renderLoader, setRenderLoader] = useState('');
+    const { handleIsOpen, elementRef } = useContext(imageMagnifier);
+
+    const handleOnClick = (e) => {
+        elementRef.current = e.target;
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+        handleIsOpen(true);
+        document.body.style.overflow = 'hidden';
+    }
 
     useEffect(() => {
         if (navigation.location && navigation.location.pathname.endsWith('/gallery') && !navigation.formMethod) {
@@ -27,8 +40,8 @@ export default function RestaurantGallery() {
 
     const renderGallery = brand && brand.gallery.map(gallery => {
         return (
-            <div className='image'>
-                <img src={gallery} alt='img' />
+            <div className='image' onClick={handleOnClick}>
+                <img src={gallery} alt='img' ref={elementRef}/>
             </div>
         )
     })
@@ -37,6 +50,7 @@ export default function RestaurantGallery() {
         <>
             {navigation.state === 'loading' && !navigation.formMethod ? renderLoader :
                 <div className='restaurant-gallery-container'>
+                    <FullScreenImageShow />
                     <div className='heading'>
                         <p>{brand.name} Photos</p>
                     </div>

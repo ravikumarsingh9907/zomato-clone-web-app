@@ -11,6 +11,7 @@ import noFoundReview from '../../Asset/reviews-nothing-here-yet.avif';
 import WriteReview from './WriteReview';
 import { reviewContext } from '../../Context/review-context';
 import { formContext } from '../../Context/form-context';
+import FullScreenImageShow from '../FullScreenImageShow';
 
 export default function Reviews() {
     const { loggedInUser } = useLoaderData();
@@ -57,7 +58,7 @@ export default function Reviews() {
 
     const renderCards = reviews.map(review => {
         return (
-            <ReviewCard data={review}  key={review._id}/>
+            <ReviewCard data={review}  key={review._id} />
         )
     });
 
@@ -65,6 +66,7 @@ export default function Reviews() {
         <>
             {navigation.state === 'loading' && !navigation.formMethod ? renderLoader
                 : <div className='reviews-wrapper'>
+                    <FullScreenImageShow />
                     <WriteReview />
                     <div className='heading-write-review-container'>
                         <div className='heading-container'>

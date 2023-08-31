@@ -4,18 +4,19 @@ import PhotosLoader from './Loaders/PhotosLoader';
 import BookmarksLoader from './Loaders/BookmarksLoader';
 import FollowersLoader from './Loaders/FollowersLoader';
 import { useNavigation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NotFound from './Layout/NotFound';
 import noPhotosFound from '../../Asset/photos-not-posted-yet.avif';
 import UnviersalLoader from '../Layout/PreLoader';
 import ReviewsLoader from '../Restaurant/Loaders/ReviewLoader';
+import FullScreenImageShow from '../FullScreenImageShow';
+import { imageMagnifier } from '../../Context/image-magnifier';
 
 export default function ProfilePhotos() {
     const data = useLoaderData();
     const navigation = useNavigation();
     const [renderLoader, setRenderLoader] = useState('');
-
-    console.log(data);
+    const { handleIsOpen, elementRef} = useContext(imageMagnifier);
 
     useEffect(() => {
         if(navigation.location && navigation.location.pathname.endsWith('/bookmarks')) {
@@ -29,26 +30,29 @@ export default function ProfilePhotos() {
         } else {
             setRenderLoader(<UnviersalLoader />);
         }
-    },[navigation])
+    },[navigation]);
+
+    const handleImageMagnifier = () => {
+        handleIsOpen(true);
+    }
 
     const renderPhotos = data.length && data.map(data => {
         return (
             data.images.map(image => {
                 return (
-                    <div className='image-container'>
-                        <img src={image} alt='img' />
+                    <div className='image-container' onClick={handleImageMagnifier}>
+                        <img src={image} alt='img' ref={elementRef}/>
                     </div>
                 )
             })
         )
     });
 
-    console.log(renderPhotos);
-
     return (
         <>
             {navigation.state !== 'loading' ?
                 <div className='photos-wrapper'>
+                    <FullScreenImageShow />
                     <div className='photos-heading'>
                         <h2 className='heading'>Photos</h2>
                     </div>

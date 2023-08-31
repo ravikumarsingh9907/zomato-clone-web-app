@@ -18,6 +18,7 @@ import ProfileReviews, { loader as profileReviewsLoader } from './Component/User
 import ProfilePhotos, { loader as photosLoader } from './Component/User/Photos';
 import PorfileBookmarks, { loader as bookmarkLoader } from './Component/User/Bookmarks';
 import ProfileFollowers, { loader as followDataLoader, action as RemoveFollowingAction } from './Component/User/Followers';
+import ImageMagnifierProvider from './Context/imageMagnifierProvider';
 
 const router = createBrowserRouter([
   {
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
           },
           {
             path: '/restaurants/:id/gallery',
-            element: <RestaurantGallery />,
+            element: <ImageMagnifierProvider><RestaurantGallery /></ImageMagnifierProvider>,
             loader: restaurantGalleryLoader,
           },
           {
@@ -64,7 +65,9 @@ const router = createBrowserRouter([
             element: (<FormProvider>
               <Forms />
               <ReviewProvider>
-                <RestaurantReviews />
+                <ImageMagnifierProvider>
+                  <RestaurantReviews />
+                </ImageMagnifierProvider>
               </ReviewProvider>
             </FormProvider>),
             loader: restaurantReviewsLoader,
@@ -78,12 +81,12 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'reviews',
-            element: <ProfileReviews />,
+            element: <ImageMagnifierProvider><ProfileReviews /></ImageMagnifierProvider>,
             loader: profileReviewsLoader,
           },
           {
             path: 'photos',
-            element: <ProfilePhotos />,
+            element: <ImageMagnifierProvider><ProfilePhotos /></ImageMagnifierProvider>,
             loader: photosLoader,
           },
           {
