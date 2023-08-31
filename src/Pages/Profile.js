@@ -3,6 +3,7 @@ import ProfileCard from '../Component/User/PorfileCard';
 import Sidebar from '../Component/User/Sidebar';
 import { Outlet, redirect } from 'react-router';
 import Footer from '../Component/Footer';
+import EditProfile from '../Component/User/EditProfile';
 
 const activity = {
     heading: 'Activity',
@@ -36,6 +37,7 @@ export default function Profile() {
         <>
             <div className='profile-page-wrapper'>
                 <ProfileCard />
+                <EditProfile />
                 <div className='profile-content-container'>
                     <div className='sidebar'>
                         <Sidebar data={activity} />
@@ -50,7 +52,7 @@ export default function Profile() {
     )
 }
 
-export async function loader({params}) {
+export async function loader({ params }) {
     const profileResponse = await fetch('http://localhost:3300/users/me', {
         method: 'GET',
         headers: {
@@ -60,7 +62,7 @@ export async function loader({params}) {
     });
 
     const profile = await profileResponse.json();
-    if(profile.error) {
+    if (profile.error) {
         return redirect(`/user/${params.id}/reviews`)
     }
 
@@ -83,7 +85,9 @@ export async function loader({params}) {
     });
 
     const reviews = await getReviews.json();
-    
+
+    console.log(reviews);
+
     return {
         profile,
         profilePicture,

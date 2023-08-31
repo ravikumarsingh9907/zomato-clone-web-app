@@ -1,10 +1,12 @@
 import './profileCard.scss';
 import profileImg from '../../Asset/user-profile.svg';
 import { useLoaderData, useNavigation } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Form } from 'react-router-dom';
+import { formContext } from '../../Context/form-context';
 
 export default function ProfileCard({ edit, data }) {
+    const { setEditProfileForm } = useContext(formContext)
     const [isFollow, setIsFollow] = useState(false);
     let { profile, profilePicture, reviews } = useLoaderData();
     const [style, setStyle] = useState('100%');
@@ -13,7 +15,7 @@ export default function ProfileCard({ edit, data }) {
 
     useEffect(() => {
         let count = 0;
-        reviews.forEach(review => {
+        reviews && reviews.forEach(review => {
             review.images.forEach((image) => {
                 count += 1;
             });
@@ -41,6 +43,10 @@ export default function ProfileCard({ edit, data }) {
         !profile.followers.length && setIsFollow(false);
     }, [profile, data]);
 
+    const handleFormVisivility = () => {
+        setEditProfileForm('edit-profile-wrapper');
+    }
+
     return (
         <div className='profile-card-wrapper'>
             <div className='profile-card-container'>
@@ -56,7 +62,7 @@ export default function ProfileCard({ edit, data }) {
                 </div>
                 <div className='profile-followers-reviews-edit-container'>
                     <div className='edit-profile'>
-                        {!edit ? <button className='edit'>
+                        {!edit ? <button className='edit' onClick={handleFormVisivility}>
                             <i className='bx bxs-edit'></i>
                             <span>Edit profile</span>
                         </button>

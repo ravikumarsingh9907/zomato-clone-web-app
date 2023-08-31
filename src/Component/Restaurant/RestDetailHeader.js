@@ -4,7 +4,7 @@ import { Link, useLoaderData, Form, useNavigation } from 'react-router-dom';
 import { formContext } from '../../Context/form-context';
 
 export default function RestDetailHeader() {
-    const {handleLoginForm, handleFormVisibility} = useContext(formContext);
+    const { handleLoginForm, handleFormVisibility } = useContext(formContext);
     const [isBookMarked, setIsBookMarked] = useState(false);
     const { brand, bookmarks, reviews } = useLoaderData();
     const [style, setStyle] = useState('100%');
@@ -12,7 +12,7 @@ export default function RestDetailHeader() {
     const navigation = useNavigation();
 
     useEffect(() => {
-        if((navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod) {
+        if ((navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod) {
             setStyle('60%');
         } else {
             setStyle('100%');
@@ -20,10 +20,12 @@ export default function RestDetailHeader() {
     }, [navigation, reviews]);
 
     useEffect(() => {
-        const initialValue = 0;
-        const totalReview = reviews && reviews.reduce((acc, crr) => acc + crr.rating, initialValue);
-        const average = totalReview / reviews.length;
-        setAverageRating(average.toFixed(2));
+        if (reviews.length > 0) {
+            const initialValue = 0;
+            const totalReview = reviews && reviews.reduce((acc, crr) => acc + crr.rating, initialValue);
+            const average = totalReview / reviews.length;
+            setAverageRating(average.toFixed(2));
+        }
         //eslint-disable-next-line
     }, [])
 
@@ -32,16 +34,16 @@ export default function RestDetailHeader() {
             return bookmark.name === brand.name;
         });
 
-        if(data && data.length !== 0) {
+        if (data && data.length !== 0) {
             setIsBookMarked(true);
-        }else {
+        } else {
             setIsBookMarked(false);
         }
 
     }, [bookmarks, brand]);
 
     const handleBookMarkClick = () => {
-        if(!bookmarks) {
+        if (!bookmarks) {
             handleFormVisibility('form-container');
             handleLoginForm();
         }
@@ -50,7 +52,7 @@ export default function RestDetailHeader() {
     const descriptionArr = brand.description.split(',');
 
     const renderDescription = descriptionArr.map((item, index) => {
-        return <Link to={`/restaurants?query=${item}`} key={item+'-'+index}>{item}, </Link>
+        return <Link to={`/restaurants?query=${item}`} key={item + '-' + index}>{item}, </Link>
     });
 
     return (
@@ -88,7 +90,7 @@ export default function RestDetailHeader() {
                 </div>
                 <div className='rating-and-review-container'>
                     <div className='rating'>
-                        <span className='digit'>{typeof averageRating === 'number' ? averageRating : 0}</span>
+                        <span className='digit'>{averageRating}</span>
                         <i className='bx bxs-star star'></i>
                     </div>
                     <div className='rating-count'>
@@ -98,15 +100,15 @@ export default function RestDetailHeader() {
                 </div>
             </div>
             <div className='bookmark-share-container'>
-                {!isBookMarked && <Form method='post' style={{opacity: style}}>
+                {!isBookMarked && <Form method='post' style={{ opacity: style }}>
                     <button className='bookmark-btn btn not-bookmarked' onClick={handleBookMarkClick}>
-                        { (navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bx-bookmark-plus'></i>}
+                        {(navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bx-bookmark-plus'></i>}
                         <span className='action'>Bookmark</span>
                     </button>
                 </Form>}
-                {isBookMarked && <Form method='delete' style={{opacity: style}}>
+                {isBookMarked && <Form method='delete' style={{ opacity: style }}>
                     <button className='bookmark-btn btn bookmarked' onClick={handleBookMarkClick}>
-                        { (navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bxs-bookmark-star'></i>}
+                        {(navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bxs-bookmark-star'></i>}
                         <span className='action'>Bookmark</span>
                     </button>
                 </Form>}

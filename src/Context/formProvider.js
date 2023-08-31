@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export default function FormProvider(props) {
     const [isLogin, setIsLogin] = useState(true);
     const [formVisibility, setFormVisibility] = useState('form-container hidden');
+    const [editProfileForm, setEditProfileForm] = useState('hidden');
     const [loggedInUser, setLoggedInUser] = useState({});
 
     useEffect(() => {
@@ -32,7 +33,9 @@ export default function FormProvider(props) {
         handleLoginForm,
         isLogin,
         setLoggedInUser,
-        loggedInUser
+        loggedInUser,
+        editProfileForm,
+        setEditProfileForm
     }
 
     return(

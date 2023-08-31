@@ -43,8 +43,8 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
             method = e.target.method
         }
 
+        setIsLoading(true);
         if (method === 'post') {
-            setIsLoading(true);
             const likeEventResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
                 method: 'PATCH',
                 headers: {
@@ -58,7 +58,6 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
 
             setIsLoading(false);
         } else {
-            setIsLoading(true);
             const likeEventResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
                 method: 'DELETE',
                 headers: {
@@ -124,8 +123,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
                 body: JSON.stringify({ comment: editedComment })
             });
 
-            const editComment = await editResponse.json();
-            console.log(editComment);
+            await editResponse.json();
             setIsEditable(false);
         }
     }
@@ -166,7 +164,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
                     <span className='like'>Helpful</span>
                 </form>}
                 {!isLiked || <form method='post' className='like-container' onClick={handleLikeEvent}>
-                    <i className='bx bx-like'></i>
+                    {isLoading ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bx-like'></i>}
                     <span className='like'>Helpful</span>
                 </form>}
                 {!commentVisibility ? <div className='comment-container' onClick={handleCommentVisibilty}>

@@ -76,7 +76,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile/:id',
-        element: <Profile />,
+        element: <FormProvider><Profile /></FormProvider>,
         loader: profilePictureLoader,
         children: [
           {
