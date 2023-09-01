@@ -1,5 +1,5 @@
 import './Profile.scss'
-import ProfileCard from '../Component/User/PorfileCard';
+import ProfileCard from '../Component/User/ProfileCard';
 import Sidebar from '../Component/User/Sidebar';
 import { Outlet, redirect } from 'react-router';
 import { useContext } from 'react';

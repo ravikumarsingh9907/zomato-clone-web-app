@@ -1,17 +1,23 @@
-import { useLoaderData } from 'react-router';
 import './editProfile.scss';
 import profileImg from '../../Asset/user-profile.svg';
 import { useContext, useRef, useState } from 'react';
 import { formContext } from '../../Context/form-context';
+import { profileContext } from '../../Context/profile-context';
 
 export default function EditProfile() {
     const [editIsOpen, setEditIsOpen] = useState(false);
-    const { profile, profilePicture, } = useLoaderData();
-    const [credentialErrorMessage, setCredentialErrorMessage] = useState({ 'color': '#ff00006e' });
-    const [isCorrectCredential, setIsCorrectCredential] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const { editProfileForm, setEditProfileForm } = useContext(formContext)
+    const { editProfileForm, setEditProfileForm } = useContext(formContext);
     const profileRef = useRef();
+    const { profilePicture,
+            profile,
+            handleProfilePicture,
+            handleRemoveProfilePhoto,
+            credentialErrorMessage,
+            isCorrectCredential,
+            setIsCorrectCredential,
+            handleProfileUpdate } = useContext(profileContext);
+    const [input, setInput] = useState({ fullname: profile.fullname, phone: profile.phone });
 
     const handleAlertClick = () => {
         setIsCorrectCredential(!isCorrectCredential)
@@ -33,46 +39,45 @@ export default function EditProfile() {
         formData.append('avatar', selectedFile);
 
         setIsLoading(true)
-        const uploadProfilePic = await fetch('http://localhost:3300/users/me/avatar', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-            body: formData
-        });
-
-        const result = await uploadProfilePic.json();
-        if (!result.data) {
-            setCredentialErrorMessage({ ...credentialErrorMessage, data: result });
-        } else {
-            setCredentialErrorMessage({ ...credentialErrorMessage, color: 'green', data: result.data });
-        }
-        setIsCorrectCredential(true);
+        await handleProfilePicture(formData);
         setIsLoading(false);
     }
 
-    const handleRemoveProfilePhoto = async (e) => {
+    const handleRemoveProfile = async (e) => {
         setIsLoading(true)
-        const removeProfilePic = await fetch('http://localhost:3300/users/me/avatar', {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
-
-        const result = await removeProfilePic.json();
-        if (!result.data) {
-            setCredentialErrorMessage({ ...credentialErrorMessage, data: result });
-        } else {
-            setCredentialErrorMessage({ ...credentialErrorMessage, color: 'green', data: result.data });
-        }
-        setIsCorrectCredential(true);
+        await handleRemoveProfilePhoto();
         setIsLoading(false);
     }
 
     const handleFormVisibility = () => {
-        console.log('hello');
         setEditProfileForm('hidden');
+    }
+
+    const handleOnChangeProfileInfo = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value })
+    }
+
+    const updateFormData = async (e) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+        const updateInfo = await fetch('http://localhost:3300/users/me', {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fullname: input.fullname, phone: input.phone }),
+        });
+
+        const result = await updateInfo.json();
+        if (result.user) {
+            handleProfileUpdate(result.user);
+            setIsLoading(false);
+        } else {
+            setIsCorrectCredential(true);
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -93,20 +98,20 @@ export default function EditProfile() {
                     {editIsOpen && !isLoading && <div className='edit-delete-profile-picture-container'>
                         <button className='change-photo btn' onClick={handleChangePhotoClick}>Change Photo</button>
                         <input id='progile-img' type='file' className='edit-profile' style={{ display: 'none' }} ref={profileRef} onChange={handleFileInput} />
-                        <button className='delete-photo btn' onClick={handleRemoveProfilePhoto}>Remove Photo</button>
+                        <button className='delete-photo btn' onClick={handleRemoveProfile}>Remove Photo</button>
                     </div>}
                 </div>
                 <form className='details-container'>
                     <div className='list name'>
                         <label htmlFor='name'>Name</label>
-                        <input id='name' type='text' value={profile.fullname} />
+                        <input id='name' name='fullname' type='text' value={input.fullname} onChange={handleOnChangeProfileInfo} />
                     </div>
                     <div className='list number'>
                         <label htmlFor='number'>Mobile number</label>
-                        <input id='number' type='number' value={profile.phone} />
+                        <input id='number' name='phone' type='number' value={input.phone} onChange={handleOnChangeProfileInfo} />
                     </div>
                     <div className='list btn-container'>
-                        <button className='bnt'>Update</button>
+                        {isLoading ? <button className='btn'><i class='bx bx-loader-alt loader'></i></button> : <button className='btn' type='submit' onClick={updateFormData}>Update</button>}
                     </div>
                 </form>
             </div>

@@ -4,11 +4,13 @@ import { useLoaderData, useNavigation } from 'react-router';
 import { useContext, useEffect, useState } from 'react';
 import { Form } from 'react-router-dom';
 import { formContext } from '../../Context/form-context';
+import { profileContext } from '../../Context/profile-context';
 
 export default function ProfileCard({ edit, data }) {
-    const { setEditProfileForm } = useContext(formContext)
+    const { setEditProfileForm } = useContext(formContext);
+    const { profile, profilePicture} = useContext(profileContext);
     const [isFollow, setIsFollow] = useState(false);
-    let { profile, profilePicture, reviews } = useLoaderData();
+    const { reviews } = useLoaderData();
     const [style, setStyle] = useState('100%');
     const [totalPhotosPosted, setTotalPhotosPosted] = useState(0);
     const navigation = useNavigation();
@@ -23,7 +25,7 @@ export default function ProfileCard({ edit, data }) {
 
         setTotalPhotosPosted(count);
         //eslint-disable-next-line
-    }, [])
+    }, [profilePicture])
 
     useEffect(() => {
         if (navigation.state === 'submitting' || navigation.state === 'loading') {

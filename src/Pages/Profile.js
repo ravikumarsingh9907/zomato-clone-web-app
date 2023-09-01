@@ -1,7 +1,7 @@
 import './Profile.scss'
-import ProfileCard from '../Component/User/PorfileCard';
+import ProfileCard from '../Component/User/ProfileCard';
 import Sidebar from '../Component/User/Sidebar';
-import { Outlet, redirect } from 'react-router';
+import { Outlet } from 'react-router';
 import Footer from '../Component/Footer';
 import EditProfile from '../Component/User/EditProfile';
 
@@ -32,7 +32,6 @@ const activity = {
 }
 
 export default function Profile() {
-
     return (
         <>
             <div className='profile-page-wrapper'>
@@ -53,44 +52,13 @@ export default function Profile() {
 }
 
 export async function loader({ params }) {
-    const profileResponse = await fetch('http://localhost:3300/users/me', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
-
-    const profile = await profileResponse.json();
-    if (profile.error) {
-        return redirect(`/user/${params.id}/reviews`)
-    }
-
-    const profilePictureResponse = await fetch(`http://localhost:3300/users/${profile._id}/avatar`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-    });
-
-    let profilePicture;
-
-    if (profilePictureResponse.status !== 400) {
-        profilePicture = profilePictureResponse.url;
-    }
-
-
     const getReviews = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
         method: 'GET',
     });
 
     const reviews = await getReviews.json();
 
-    console.log(reviews);
-
     return {
-        profile,
-        profilePicture,
         reviews,
     };
 }

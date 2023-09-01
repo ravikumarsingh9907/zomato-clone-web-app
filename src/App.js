@@ -11,6 +11,7 @@ import ReviewProvider from './Context/reviewProvider';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import FormProvider from './Context/formProvider';
 import SearchProvider from './Context/searchProvider';
+import ProfileProvider from './Context/profileProvider';
 import FoodCardList from './Component/Restaurant/FoodCardList';
 import RestaurantGallery, { loader as restaurantGalleryLoader } from './Component/Restaurant/RestaurantGallery';
 import RestaurantReviews, { loader as restaurantReviewsLoader } from './Component/Restaurant/Reviews';
@@ -76,7 +77,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile/:id',
-        element: <FormProvider><Profile /></FormProvider>,
+        element: (<FormProvider>
+          <ProfileProvider>
+            <Profile />
+          </ProfileProvider>
+        </FormProvider>),
         loader: profilePictureLoader,
         children: [
           {

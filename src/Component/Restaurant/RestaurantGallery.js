@@ -31,7 +31,7 @@ export default function RestaurantGallery() {
             setRenderLoader(<GalleryLoader />);
         } else if (navigation.location && navigation.location.pathname.endsWith('/online-order') && !navigation.formMethod) {
             setRenderLoader(<OnlineOrderLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/reviews') && !navigation.formMethod) {
+        } else if (navigation.location && navigation.location.pathname.endsWith('/reviews') && !navigation.location.pathname.startsWith('/profile') && !navigation.formMethod) {
             setRenderLoader(<ReviewsLoader />);
         } else if (!navigation.formMethod) {
             setRenderLoader(<UnviersalLoader />);
