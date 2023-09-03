@@ -18,13 +18,13 @@ export default function ReviewCard({ data, follow }) {
 
     useEffect(() => {
         (async () => {
-            const reviewLikesResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
+            const reviewLikesResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
                 method: 'GET',
             });
 
             const reviewLikesData = await reviewLikesResponse.json();
 
-            const reviewCommentResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/comment`, {
+            const reviewCommentResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment`, {
                 method: 'GET',
             });
 
@@ -61,14 +61,14 @@ export default function ReviewCard({ data, follow }) {
             let followResponse;
 
             if (e.target.parentElement.method === 'post') {
-                followResponse = await fetch(`http://localhost:3300/users/${e.target.value}/follow`, {
+                followResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${e.target.value}/follow`, {
                     method: e.target.parentElement.method,
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
             } else {
-                followResponse = await fetch(`http://localhost:3300/users/${e.target.value}/follow`, {
+                followResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${e.target.value}/follow`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`

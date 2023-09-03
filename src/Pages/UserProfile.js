@@ -53,7 +53,7 @@ export default function UserProfile() {
 }
 
 export async function loader({ params }) {
-    const getReviews = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
+    const getReviews = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/reviews`, {
         method: 'GET',
     });
 
@@ -65,7 +65,7 @@ export async function loader({ params }) {
 }
 
 export async function action({ request, params }) {
-    const followResponse = await fetch(`http://localhost:3300/users/${params.id}/follow`, {
+    const followResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/follow`, {
         method: request.method,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

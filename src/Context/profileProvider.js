@@ -17,7 +17,7 @@ export default function ProfileContext(props) {
             setIsLoading(true);
             if(window?.location?.pathname?.startsWith('/user') || navigation.location?.pathname?.startsWith('/user')) {
                 console.log(id);
-                const profileResponse = await fetch(`http://localhost:3300/users/${id}`, {
+                const profileResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export default function ProfileContext(props) {
                     setProfile(profile);
                 }
 
-                const profilePictureResponse = await fetch(`http://localhost:3300/users/me/avatar`, {
+                const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/me/avatar`, {
                     method: 'GET',
                     headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -46,7 +46,7 @@ export default function ProfileContext(props) {
                     setIsLoading(false);
                 }
             } else {
-                const profileResponse = await fetch('http://localhost:3300/users/me', {
+                const profileResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export default function ProfileContext(props) {
                     setProfile(profile);
                 }
 
-                const profilePictureResponse = await fetch(`http://localhost:3300/users/${id}/avatar`, {
+                const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/avatar`, {
                     method: 'GET',
                 });
 
@@ -77,7 +77,7 @@ export default function ProfileContext(props) {
     }, [credentialErrorMessage, navigation]);
 
     const handleProfilePicture = async (data) => {
-        const uploadProfilePic = await fetch('http://localhost:3300/users/me/avatar', {
+        const uploadProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me/avatar', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -94,7 +94,7 @@ export default function ProfileContext(props) {
     }
 
     const handleRemoveProfilePhoto = async () => {
-        const removeProfilePic = await fetch('http://localhost:3300/users/me/avatar', {
+        const removeProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me/avatar', {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`

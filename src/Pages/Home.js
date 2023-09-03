@@ -33,14 +33,14 @@ export default function Home() {
 }
 
 export async function loader() {
-    const brandResponse = await fetch("http://localhost:3300/restaurants", {
+    const brandResponse = await fetch("https://foodie-api-nine.vercel.app/restaurants", {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
         }
     });
 
-    const cuisineResponse = await fetch("http://localhost:3300/cuisines", {
+    const cuisineResponse = await fetch("https://foodie-api-nine.vercel.app/cuisines", {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'

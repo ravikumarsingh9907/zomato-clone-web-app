@@ -43,7 +43,7 @@ export default function WriteComment() {
         }
 
         setIsLoading(true);
-        const uploadResponse = await fetch(`http://localhost:3300${window.location.pathname}`, {
+        const uploadResponse = await fetch(`https://foodie-api-nine.vercel.app${window.location.pathname}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,

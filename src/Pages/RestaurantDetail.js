@@ -18,14 +18,14 @@ export default function RestaurantDetail() {
 }
 
 export async function loader({ params }) {
-    const response = await fetch(`http://localhost:3300/restaurants/${params.id}`, {
+    const response = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
         },
     });
 
-    const userResponse = await fetch('http://localhost:3300/users/me', {
+    const userResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export async function loader({ params }) {
     const user = await userResponse.json();
     const { brand } = await response.json();
 
-    const bookmarkResponse = await fetch(`http://localhost:3300/users/${user._id}/bookmarks`, {
+    const bookmarkResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${user._id}/bookmarks`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export async function loader({ params }) {
 
     const { bookmarks } = await bookmarkResponse.json();
 
-    const reviewResponse = await fetch(`http://localhost:3300/restaurants/${params.id}/reviews`, {
+    const reviewResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}/reviews`, {
         method: 'GET',
     });
 
@@ -61,7 +61,7 @@ export async function loader({ params }) {
 }
 
 export async function action({ request, params }) {
-    const addToBookmarkResponse = await fetch(`http://localhost:3300/restaurants/${params.id}/bookmark`, {
+    const addToBookmarkResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}/bookmark`, {
         method: request.method,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

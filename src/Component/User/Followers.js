@@ -77,7 +77,7 @@ export default function ProfileFollowers({ edit }) {
 }
 
 export async function loader({ params }) {
-    const followersResponse = await fetch(`http://localhost:3300/users/${params.id}/follow`, {
+    const followersResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/follow`, {
         method: 'GET',
     });
 
@@ -87,7 +87,7 @@ export async function loader({ params }) {
 }
 
 export async function action({ params }) {
-    const removeFollowing = await fetch(`http://localhost:3300/users/${params.id}/follow`, {
+    const removeFollowing = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/follow`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

@@ -61,7 +61,7 @@ export default function RestaurantGallery() {
 }
 
 export async function loader({ params }) {
-    const response = await fetch(`http://localhost:3300/restaurants/${params.id}`, {
+    const response = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'

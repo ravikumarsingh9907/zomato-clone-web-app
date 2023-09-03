@@ -67,7 +67,7 @@ export default function ProfilePhotos() {
 }
 
 export async function loader({params}) {
-    const response = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
+    const response = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/reviews`, {
         method: 'GET',
     });
 

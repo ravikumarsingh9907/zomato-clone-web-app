@@ -50,7 +50,7 @@ export default function PorfileBookmarks() {
 }
 
 export async function loader({params}) {
-    const bookmarkResponse = await fetch(`http://localhost:3300/users/${params.id}/bookmarks`, {
+    const bookmarkResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/bookmarks`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

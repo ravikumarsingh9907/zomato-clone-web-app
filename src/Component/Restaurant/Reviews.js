@@ -38,7 +38,7 @@ export default function Reviews() {
 
     useEffect(() => {
         (async () => {
-            const reviewsResponse = await fetch(`http://localhost:3300/restaurants/${id}/reviews`, {
+            const reviewsResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${id}/reviews`, {
                 method: 'GET',
             });
 
@@ -86,7 +86,7 @@ export default function Reviews() {
 }
 
 export async function loader({ params }) {
-    const loggedInUserResponse = await fetch('http://localhost:3300/users/me', {
+    const loggedInUserResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -95,7 +95,7 @@ export async function loader({ params }) {
 
     const loggedInUser = await loggedInUserResponse.json();
 
-    const reviewsResponse = await fetch(`http://localhost:3300/restaurants/${params.id}/reviews`, {
+    const reviewsResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}/reviews`, {
         method: 'GET',
     });
 

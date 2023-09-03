@@ -45,7 +45,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
 
         setIsLoading(true);
         if (method === 'post') {
-            const likeEventResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
+            const likeEventResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -58,7 +58,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
 
             setIsLoading(false);
         } else {
-            const likeEventResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
+            const likeEventResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -86,7 +86,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
         }
 
         setCommentSubmissionProcess(true);
-        const submitComment = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/comment`, {
+        const submitComment = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
 
     const handleEditCommentEvent = (commentId) => {
         return async () => {
-            const editResponse = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
+            const editResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
 
     const handleDeleteCommentEvent = (commentId) => {
         return async () => {
-            const deleteCommment = await fetch(`http://localhost:3300/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
+            const deleteCommment = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`

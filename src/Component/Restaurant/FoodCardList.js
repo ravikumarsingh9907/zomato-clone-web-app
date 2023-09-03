@@ -19,7 +19,7 @@ export default function FoodCardList() {
 
     useEffect(() => {
         (async () => {
-            const getDishes = await fetch(`http://localhost:3300/restaurants/${id}/dishes`, {
+            const getDishes = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${id}/dishes`, {
                 method: 'GET',
             });
             const dishList = await getDishes.json();
@@ -57,7 +57,7 @@ const clearInputValue = () => {
 
 const handleClickEvent = async (e) => {
     e.preventDefault();
-    const getDishes = await fetch(`http://localhost:3300/restaurants/${id}/dishes?dish=${queryRef.current}`, {
+    const getDishes = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${id}/dishes?dish=${queryRef.current}`, {
         method: 'GET',
     });
     const dishList = await getDishes.json();

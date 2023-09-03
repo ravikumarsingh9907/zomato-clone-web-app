@@ -31,7 +31,7 @@ export default function Navbar() {
 
     const userGet = async function (e) {
         if (e.target.value) {
-            const response = await fetch(`http://localhost:3300/restaurants?query=${e.target.value}`, {
+            const response = await fetch(`https://foodie-api-nine.vercel.app/restaurants?query=${e.target.value}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ export default function Navbar() {
 };
 
 export async function loader() {
-    const response = await fetch('http://localhost:3300/users/me', {
+    const response = await fetch('https://foodie-api-nine.vercel.app/users/me', {
         method: 'GET',
         headers: {
             'Content-Type': "application/json",
@@ -141,7 +141,7 @@ export async function loader() {
 
     const user = await response.json();
 
-    const responseProfilePicture = await fetch(`http://localhost:3300/users/${user._id}/avatar`, {
+    const responseProfilePicture = await fetch(`https://foodie-api-nine.vercel.app/users/${user._id}/avatar`, {
         method: 'GET',
     });
 
@@ -159,7 +159,7 @@ export async function loader() {
 }
 
 export async function action() {
-    const logoutResponse = await fetch('http://localhost:3300/users/logout', {
+    const logoutResponse = await fetch('https://foodie-api-nine.vercel.app/users/logout', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

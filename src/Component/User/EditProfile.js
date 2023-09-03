@@ -61,7 +61,7 @@ export default function EditProfile() {
         e.preventDefault();
 
         setIsLoading(true);
-        const updateInfo = await fetch('http://localhost:3300/users/me', {
+        const updateInfo = await fetch('https://foodie-api-nine.vercel.app/users/me', {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,

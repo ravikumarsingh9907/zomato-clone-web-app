@@ -27,7 +27,7 @@ export default function Restaurant() {
 
 export async function loader({request}) {
     const urlObj = new URL(request.url);
-    const brandResponse = await fetch("http://localhost:3300/restaurants"+ urlObj.search, {
+    const brandResponse = await fetch("https://foodie-api-nine.vercel.app/restaurants"+ urlObj.search, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

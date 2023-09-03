@@ -59,7 +59,7 @@ export default function Forms() {
     const onSubmit = async (values) => {
         setIsLoading(true);
         if (values.fullname) {
-            const response = await fetch("http://localhost:3300/users/signup", {
+            const response = await fetch("https://foodie-api-nine.vercel.app/users/signup", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ export default function Forms() {
                 setIsLoading(false);
             }
         } else {
-            const response = await fetch("http://localhost:3300/users/login", {
+            const response = await fetch("https://foodie-api-nine.vercel.app/users/login", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
