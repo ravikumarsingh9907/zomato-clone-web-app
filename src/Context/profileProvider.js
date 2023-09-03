@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { profileContext } from "./profile-context";
 import { useParams, redirect, useNavigation } from "react-router";
 import UniversalLoader from '../Component/Layout/PreLoader';
+import profileImg from '../Asset/user-profile.svg'
 
 export default function ProfileContext(props) {
     const [profile, setProfile] = useState({fullname: '', phone: ''});
@@ -16,7 +17,6 @@ export default function ProfileContext(props) {
         (async () => {
             setIsLoading(true);
             if(window?.location?.pathname?.startsWith('/user') || navigation.location?.pathname?.startsWith('/user')) {
-                console.log(id);
                 const profileResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}`, {
                 method: 'GET',
                 headers: {
@@ -32,17 +32,15 @@ export default function ProfileContext(props) {
                     setProfile(profile);
                 }
 
-                const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/me/avatar`, {
+                const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/avatar`, {
                     method: 'GET',
-                    headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
                 });
 
                 if (profilePictureResponse.status !== 400) {
                     setProfilePicture(profilePictureResponse.url);
                     setIsLoading(false);
                 } else {
+                    setProfilePicture(profileImg);
                     setIsLoading(false);
                 }
             } else {
@@ -69,6 +67,7 @@ export default function ProfileContext(props) {
                     setProfilePicture(profilePictureResponse.url);
                     setIsLoading(false);
                 } else {
+                    setProfilePicture(profileImg);
                     setIsLoading(false);
                 }
             }
