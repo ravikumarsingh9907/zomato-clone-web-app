@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { profileContext } from "./profile-context";
-import { useParams, redirect } from "react-router";
+import { useParams, redirect, useNavigation } from "react-router";
 import UniversalLoader from '../Component/Layout/PreLoader';
 
 export default function ProfileContext(props) {
@@ -10,41 +10,71 @@ export default function ProfileContext(props) {
     const [isCorrectCredential, setIsCorrectCredential] = useState(false);
     const [credentialErrorMessage, setCredentialErrorMessage] = useState({ 'color': '#ff00006e' });
     const { id } = useParams();
+    const navigation = useNavigation();
 
     useEffect(() => {
         (async () => {
             setIsLoading(true);
-            const profileResponse = await fetch('http://localhost:3300/users/me', {
+            if(window?.location?.pathname?.startsWith('/user') || navigation.location?.pathname?.startsWith('/user')) {
+                console.log(id);
+                const profileResponse = await fetch(`http://localhost:3300/users/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
-            });
+                });
 
-            const profile = await profileResponse.json();
-            if (profile.error) {
-                return redirect(`/user/${id}/reviews`)
+                const profile = await profileResponse.json();
+                    if (profile.error) {
+                    return redirect(`/user/${id}/reviews`)
+                } else {
+                    setProfile(profile);
+                }
+
+                const profilePictureResponse = await fetch(`http://localhost:3300/users/me/avatar`, {
+                    method: 'GET',
+                    headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+
+                if (profilePictureResponse.status !== 400) {
+                    setProfilePicture(profilePictureResponse.url);
+                    setIsLoading(false);
+                } else {
+                    setIsLoading(false);
+                }
             } else {
-                setProfile(profile);
-            }
-
-            const profilePictureResponse = await fetch(`http://localhost:3300/users/${id}/avatar`, {
+                const profileResponse = await fetch('http://localhost:3300/users/me', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+                });
 
-            if (profilePictureResponse.status !== 400) {
-                setProfilePicture(profilePictureResponse.url);
-                setIsLoading(false);
-            } else {
-                setIsLoading(false);
+                const profile = await profileResponse.json();
+                    if (profile.error) {
+                    return redirect(`/user/${id}/reviews`)
+                } else {
+                    setProfile(profile);
+                }
+
+                const profilePictureResponse = await fetch(`http://localhost:3300/users/${id}/avatar`, {
+                    method: 'GET',
+                });
+
+                if (profilePictureResponse.status !== 400) {
+                    setProfilePicture(profilePictureResponse.url);
+                    setIsLoading(false);
+                } else {
+                    setIsLoading(false);
+                }
             }
         })();
         //eslint-disable-next-line
-    }, [credentialErrorMessage]);
+    }, [credentialErrorMessage, navigation]);
 
     const handleProfilePicture = async (data) => {
         const uploadProfilePic = await fetch('http://localhost:3300/users/me/avatar', {
@@ -98,7 +128,7 @@ export default function ProfileContext(props) {
 
     return (
         <profileContext.Provider value={profileData}>
-            {isLoading && !profilePicture ? <UniversalLoader /> : isLoading && profilePicture ? <><UniversalLoader />{props.children}</> : props.children}
+            {isLoading && !profilePicture ? <UniversalLoader /> : isLoading && profilePicture ? <><div></div>{props.children}</> : props.children}
         </profileContext.Provider>
     )
 }

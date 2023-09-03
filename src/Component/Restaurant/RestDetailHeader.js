@@ -10,6 +10,7 @@ export default function RestDetailHeader() {
     const [style, setStyle] = useState('100%');
     const [averageRating, setAverageRating] = useState(0);
     const navigation = useNavigation();
+    const [isCopied, setIsCopied] = useState(false);
 
     useEffect(() => {
         if ((navigation.state === 'submitting' || navigation.state === 'loading') && navigation.formMethod) {
@@ -49,6 +50,28 @@ export default function RestDetailHeader() {
         }
     }
 
+    const handleCopyClick = () => {
+        const urlToCopy = window.location.href;
+    
+        // Create a temporary input element to copy the URL
+        const tempInput = document.createElement('input');
+        tempInput.value = urlToCopy;
+        document.body.appendChild(tempInput);
+    
+        // Select the URL text and copy it
+        tempInput.select();
+        document.execCommand('copy');
+    
+        // Clean up and display a success message
+        document.body.removeChild(tempInput);
+        setIsCopied(true);
+    
+        // Reset the success message after a few seconds
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 3000);
+      };
+
     const descriptionArr = brand.description.split(',');
 
     const renderDescription = descriptionArr.map((item, index) => {
@@ -86,7 +109,7 @@ export default function RestDetailHeader() {
                     <div className='description'>
                         {renderDescription}
                     </div>
-                    <a className='location' href='/'>{brand.locations[0].street + ', ' + brand.locations[0].city}</a>
+                    <p className='location'>{brand.locations[0].street + ', ' + brand.locations[0].city}</p>
                 </div>
                 <div className='rating-and-review-container'>
                     <div className='rating'>
@@ -112,10 +135,12 @@ export default function RestDetailHeader() {
                         <span className='action'>Bookmark</span>
                     </button>
                 </Form>}
-                <button className='share-btn btn'>
+                {isCopied ? <button className='share-btn btn' style={{backgroundColor: 'rgb(58, 183, 87)', color: 'white', border: 'none'}}>
+                    <span className='action'>URL Copied</span>
+                </button> : <button className='share-btn btn' onClick={handleCopyClick}>
                     <i className='bx bx-share bx-flip-horizontal' ></i>
                     <span className='action'>Share</span>
-                </button>
+                </button>}
             </div>
         </div>
     )

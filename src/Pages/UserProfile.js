@@ -53,25 +53,6 @@ export default function UserProfile() {
 }
 
 export async function loader({ params }) {
-    const profileResponse = await fetch('http://localhost:3300/users/' + params.id, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-
-    const profile = await profileResponse.json();
-
-    const profilePictureResponse = await fetch(`http://localhost:3300/users/${params.id}/avatar`, {
-        method: 'GET',
-    });
-
-    let profilePicture;
-
-    if (profilePictureResponse.status !== 400) {
-        profilePicture = profilePictureResponse.url;
-    }
-
     const getReviews = await fetch(`http://localhost:3300/users/${params.id}/reviews`, {
         method: 'GET',
     });
@@ -79,8 +60,6 @@ export async function loader({ params }) {
     const reviews = await getReviews.json();
 
     return {
-        profile,
-        profilePicture,
         reviews,
     };
 }

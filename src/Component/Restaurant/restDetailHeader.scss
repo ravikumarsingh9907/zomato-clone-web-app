@@ -114,16 +114,12 @@
                 }
             }
 
-            a {
+            p {
                 text-decoration: blink;
                 color: rgb(156, 156, 156);
                 font-size: 1.1rem;
                 font-weight: 300;
                 line-height: 1.5rem;
-
-                &:hover {
-                    color: rgb(28, 28, 28);
-                }
             }
         }
 

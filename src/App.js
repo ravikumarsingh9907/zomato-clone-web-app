@@ -109,7 +109,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/user/:id',
-        element: (<FormProvider><UserProfile /></FormProvider>),
+        element: (<FormProvider>
+          <ProfileProvider>
+            <UserProfile />
+          </ProfileProvider>
+          </FormProvider>),
         loader: userPorfilePictureLoader,
         action: FollowUnFollowAction,
         children: [
