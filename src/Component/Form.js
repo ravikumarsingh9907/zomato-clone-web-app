@@ -145,6 +145,8 @@ export default function Forms() {
                                 name='phone'
                                 placeholder='Phone Number'
                                 type='number'
+                                min='10'
+                                max='10'
                             />
                             <ErrorMessage name='phone' />
                         </div>}
@@ -153,6 +155,7 @@ export default function Forms() {
                                 id='password'
                                 className='password list'
                                 name='password'
+                                type='password'
                                 placeholder='Password'
                             />
                             <ErrorMessage name='password' />
