@@ -3,25 +3,16 @@ import profileImg from '../../Asset/user-profile.svg';
 import { useContext, useRef, useState } from 'react';
 import { formContext } from '../../Context/form-context';
 import { profileContext } from '../../Context/profile-context';
+import { useLoaderData } from 'react-router';
 
 export default function EditProfile() {
     const [editIsOpen, setEditIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { editProfileForm, setEditProfileForm } = useContext(formContext);
+    const { profile } = useLoaderData();
     const profileRef = useRef();
-    const { profilePicture,
-            profile,
-            handleProfilePicture,
-            handleRemoveProfilePhoto,
-            credentialErrorMessage,
-            isCorrectCredential,
-            setIsCorrectCredential,
-            handleProfileUpdate } = useContext(profileContext);
-    const [input, setInput] = useState({ fullname: profile.fullname, phone: profile.phone });
-
-    const handleAlertClick = () => {
-        setIsCorrectCredential(!isCorrectCredential)
-    }
+    const { updatedProfile, handleProfilePicture, handleRemoveProfilePhoto, handleProfileUpdate, profilePhoto } = useContext(profileContext);
+    const [input, setInput] = useState({ fullname: updatedProfile ? updatedProfile.fullname : profile.fullname, phone: updatedProfile ? updatedProfile.phone : profile.phone });
 
     const handleIsOpenToggling = () => {
         setEditIsOpen(!editIsOpen);
@@ -75,7 +66,6 @@ export default function EditProfile() {
             handleProfileUpdate(result.user);
             setIsLoading(false);
         } else {
-            setIsCorrectCredential(true);
             setIsLoading(false);
         }
     }
@@ -84,16 +74,12 @@ export default function EditProfile() {
         <div className={editProfileForm}>
             <div className='edit-profile-container'>
                 <div className='close-btn'>
-                    <i class='bx bx-x' onClick={handleFormVisibility}></i>
+                    <i className='bx bx-x' onClick={handleFormVisibility}></i>
                 </div>
-                {isCorrectCredential && <div className='alert-error' style={{ backgroundColor: credentialErrorMessage.color }}>
-                    <p className='alert-name'>{credentialErrorMessage.data}</p>
-                    <span className="material-symbols-outlined" onClick={handleAlertClick}>close</span>
-                </div>}
                 <div className='image-container'>
                     <div className='image'>
-                        {isLoading ? <div className='img-overlay'><i class='bx bx-loader-alt loader'></i></div> : <div className='img-overlay'><i class='bx bxs-camera-plus' onClick={handleIsOpenToggling}></i></div>}
-                        <img src={profilePicture ? profilePicture : profileImg} alt='profile-img' />
+                        {isLoading ? <div className='img-overlay'><i className='bx bx-loader-alt loader'></i></div> : <div className='img-overlay'><i className='bx bxs-camera-plus' onClick={handleIsOpenToggling}></i></div>}
+                        <img src={profilePhoto ? profilePhoto : profileImg} alt='profile-img' />
                     </div>
                     {editIsOpen && !isLoading && <div className='edit-delete-profile-picture-container'>
                         <button className='change-photo btn' onClick={handleChangePhotoClick}>Change Photo</button>
@@ -111,7 +97,7 @@ export default function EditProfile() {
                         <input id='number' name='phone' type='number' value={input.phone} onChange={handleOnChangeProfileInfo} />
                     </div>
                     <div className='list btn-container'>
-                        {isLoading ? <button className='btn'><i class='bx bx-loader-alt loader'></i></button> : <button className='btn' type='submit' onClick={updateFormData}>Update</button>}
+                        {isLoading ? <button className='btn'><i className='bx bx-loader-alt loader'></i></button> : <button className='btn' type='submit' onClick={updateFormData}>Update</button>}
                     </div>
                 </form>
             </div>

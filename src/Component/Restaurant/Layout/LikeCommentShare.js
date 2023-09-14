@@ -1,15 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import './likeCommentShare.scss';
-import CommentProfile from '../../User/Layout/FollowingFollowersCard';
-import { useLoaderData } from 'react-router';
+import CommentProfile from '../../User/Layout/FollowersFollowingCard';
 import { formContext } from '../../../Context/form-context';
 
-export default function LikeCommentShare({ data, reviewLikes, comments }) {
-    const { loggedInUser } = useLoaderData();
+export default function LikeCommentShare({ data, reviewLikes, comments, loggedInUser, commentVisibility, setCommentVisibilty, handleCommentData }) {
     const [isLoading, setIsLoading] = useState(false);
     const [commentSubmissionProcess, setCommentSubmissionProcess] = useState(false);
     const [isLiked, setIsLiked] = useState(true);
-    const [commentVisibility, setCommentVisibilty] = useState(false);
     const [commentValue, setCommentValue] = useState('');
     const [isEditable, setIsEditable] = useState(false);
     const EditedCommentRef = useRef(null);
@@ -28,10 +25,6 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loggedInUser]);
-
-    const handleCommentVisibilty = () => {
-        setCommentVisibilty(!commentVisibility);
-    }
 
     const handleLikeEvent = async (e) => {
         e.preventDefault();
@@ -100,6 +93,7 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
         if (commentResponse._id) {
             setCommentSubmissionProcess(false);
             setCommentValue('');
+            handleCommentData(commentResponse._id);
         }
     }
 
@@ -123,8 +117,9 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
                 body: JSON.stringify({ comment: editedComment })
             });
 
-            await editResponse.json();
+            const result = await editResponse.json();
             setIsEditable(false);
+            handleCommentData(result);
         }
     }
 
@@ -137,7 +132,10 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
                 }
             });
 
-            await deleteCommment.json();
+            const result = await deleteCommment.json();
+            if(result._id) {
+                handleCommentData(result);
+            }
         }
     }
 
@@ -167,10 +165,10 @@ export default function LikeCommentShare({ data, reviewLikes, comments }) {
                     {isLoading ? <i className='bx bx-loader-alt loader'></i> : <i className='bx bx-like'></i>}
                     <span className='like'>Helpful</span>
                 </form>}
-                {!commentVisibility ? <div className='comment-container' onClick={handleCommentVisibilty}>
+                {!commentVisibility ? <div className='comment-container' onClick={setCommentVisibilty}>
                     <i className='bx bx-message-square-dots'></i>
                     <span className='comment'>Comment</span>
-                </div> : <div className='comment-container active' onClick={handleCommentVisibilty}>
+                </div> : <div className='comment-container active' onClick={setCommentVisibilty}>
                     <i className='bx bx-message-square-dots'></i>
                     <span className='comment'>Comment</span>
                 </div>}

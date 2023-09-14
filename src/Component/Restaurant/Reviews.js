@@ -46,7 +46,7 @@ export default function Reviews() {
             setReviews(reviews)
         })();
         //eslint-disable-next-line
-    }, [isFormVisibile, reviews])
+    }, [isFormVisibile])
 
     const handleOnClickFormVisibility = () => {
         if (loggedInUser.error) {
@@ -58,7 +58,7 @@ export default function Reviews() {
 
     const renderCards = reviews.map(review => {
         return (
-            <ReviewCard data={review}  key={review._id} />
+            <ReviewCard data={review}  key={review._id} loggedInUser={loggedInUser}/>
         )
     });
 
@@ -85,7 +85,7 @@ export default function Reviews() {
     )
 }
 
-export async function loader({ params }) {
+export async function loader() {
     const loggedInUserResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
         method: 'GET',
         headers: {
@@ -95,14 +95,7 @@ export async function loader({ params }) {
 
     const loggedInUser = await loggedInUserResponse.json();
 
-    const reviewsResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}/reviews`, {
-        method: 'GET',
-    });
-
-    const reviews = await reviewsResponse.json();
-
     return {
         loggedInUser,
-        reviews
     };
 }

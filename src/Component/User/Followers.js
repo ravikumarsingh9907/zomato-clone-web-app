@@ -1,34 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, Suspense } from 'react';
 import './followers.scss';
-import FollowingFollowersCard from './Layout/FollowingFollowersCard';
-import { redirect, useLoaderData, useNavigation } from 'react-router';
-import noFollowerFoundImg from '../../Asset/followers-no-followers-yet.avif';
-import NotFound from './Layout/NotFound';
+import FollowersFollowingList from './Layout/FollowersList';
+import { Await, defer, redirect, useLoaderData } from 'react-router';
 import FollowersLoader from './Loaders/FollowersLoader';
-import BookmarksLoader from './Loaders/BookmarksLoader';
-import PhotosLoader from './Loaders/PhotosLoader';
-import UnviersalLoader from '../Layout/PreLoader';
-import ReviewsLoader from '../Restaurant/Loaders/ReviewLoader';
 
 export default function ProfileFollowers({ edit }) {
     const [activeBtn, setActiveBtn] = useState('followers');
-    const data = useLoaderData();
-    const navigation = useNavigation();
-    const [renderLoader, setRenderLoader] = useState(<PhotosLoader />);
-
-    useEffect(() => {
-        if(navigation.location && navigation.location.pathname.endsWith('/bookmarks')) {
-            setRenderLoader(<BookmarksLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/followers')) {
-            setRenderLoader(<FollowersLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/photos')) {
-            setRenderLoader(<PhotosLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/reviews')) {
-            setRenderLoader(<ReviewsLoader />); 
-        } else {
-            setRenderLoader(<UnviersalLoader />);
-        }
-    },[navigation]) 
+const {data} = useLoaderData();
 
     const handleOnClick = (e) => {
         e.target.classList.add('active-btn');
@@ -40,50 +18,45 @@ export default function ProfileFollowers({ edit }) {
         setActiveBtn(e.target.value);
     }
 
-    let renderFollowersOrFollowing;
-
-    if (activeBtn === 'following') {
-        renderFollowersOrFollowing = data.following.map(following => {
-            return <FollowingFollowersCard data={following} key={following._id} edit={edit} />
-        });
-    } else if (activeBtn === 'followers') {
-        renderFollowersOrFollowing = data.followers.map(follower => {
-            return <FollowingFollowersCard data={follower} key={follower._id} edit={edit} />
-        });
-    }
-
     return (
-        <>
-            {navigation.state !== 'loading' ? <div className='followers-following-wrapper'>
-                <div className='heading-container'>
-                    <h2 className='heading'>Followers</h2>
-                </div>
-                <div className='following-followers-btn-wrapper'>
-                    <div className='following'>
-                        <button className='btn' value='following' onClick={handleOnClick}>Following ({data.following.length})</button>
+        <Suspense fallback={<FollowersLoader />}>
+            <Await resolve={data}>
+                {(loadedData) => <div className='followers-following-wrapper'>
+                    <div className='heading-container'>
+                        <h2 className='heading'>Followers</h2>
                     </div>
-                    <div className='followers'>
-                        <button className='btn active-btn' value='followers' onClick={handleOnClick}>Followers ({data.followers.length})</button>
+                    <div className='following-followers-btn-wrapper'>
+                        <div className='following'>
+                            <button className='btn' value='following' onClick={handleOnClick}>Following</button>
+                        </div>
+                        <div className='followers'>
+                            <button className='btn active-btn' value='followers' onClick={handleOnClick}>Followers</button>
+                        </div>
                     </div>
-                </div>
-                <div className='list-container'>
-                    {renderFollowersOrFollowing.length > 0 ? renderFollowersOrFollowing : activeBtn === 'followers' ? <NotFound image={noFollowerFoundImg} description='You are not followed by any user yet.' /> : <NotFound image={noFollowerFoundImg} description='You are not following any user yet.' />}
-                </div>
-            </div>
-                : renderLoader 
-            }
-        </>
+                    <div className='list-container'>
+                        {activeBtn === 'following' && <FollowersFollowingList data={loadedData.following} edit={edit}/>}
+                        {activeBtn === 'followers' && <FollowersFollowingList data={loadedData.followers} edit={edit}/>}
+                    </div>
+                </div>}
+            </Await>
+        </Suspense>
     )
 }
 
-export async function loader({ params }) {
-    const followersResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/follow`, {
+async function loadData(id) {
+    const followersResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/follow`, {
         method: 'GET',
     });
 
     const followersFollowing = await followersResponse.json();
 
     return followersFollowing;
+}
+
+export async function loader({ params }) {
+    return defer({
+        data: loadData(params.id)
+    });
 }
 
 export async function action({ params }) {

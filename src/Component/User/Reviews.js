@@ -1,75 +1,60 @@
 import './reviews.scss';
-import { useLoaderData, useNavigation } from 'react-router';
-import PhotosLoader from './Loaders/PhotosLoader';
-import BookmarksLoader from './Loaders/BookmarksLoader';
-import FollowersLoader from './Loaders/FollowersLoader';
-import { useEffect, useState } from 'react';
+import { Await, defer, useLoaderData } from 'react-router';
 import NotFound from './Layout/NotFound';
 import noPhotosFound from '../../Asset/reviews-nothing-here-yet.avif';
-import UnviersalLoader from '../Layout/PreLoader';
 import ReviewCard from '../Restaurant/Layout/ReviewCard';
 import ReviewsLoader from '../Restaurant/Loaders/ReviewLoader';
 import FullScreenImageShow from '../FullScreenImageShow';
+import { Suspense, useEffect, useState } from 'react';
 
 export default function ProfileReviews() {
-    const {Reviews} = useLoaderData();
-    const navigation = useNavigation();
-    const [renderLoader, setRenderLoader] = useState('');
+    const { reviews } = useLoaderData();
+    const [loggedInUser, setLoggedInUser] = useState({error: 'error'});
 
     useEffect(() => {
-        if(navigation.location && navigation.location.pathname.endsWith('/bookmarks')) {
-            setRenderLoader(<BookmarksLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/followers')) {
-            setRenderLoader(<FollowersLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/photos')) {
-            setRenderLoader(<PhotosLoader />);
-        } else if (navigation.location && navigation.location.pathname.endsWith('/reviews')) {
-            setRenderLoader(<ReviewsLoader />); 
-        } else {
-            setRenderLoader(<UnviersalLoader />);
-        }
-    },[navigation]);
+        (async () => {
+            const loggedInUserResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
 
-    const renderReviews = Reviews.map(item => {
-        return <ReviewCard data={item} follow='false' key={item._id} />
-    });
+            const loggedInUser = await loggedInUserResponse.json();
+            setLoggedInUser(loggedInUser);
+        })();
+    }, []);
 
-    return(
-        <>
-            {navigation.state !== 'loading' ?
-                <div className='user-reviews-wrapper'>
+    return (
+        <Suspense fallback={<ReviewsLoader />}>
+            <Await resolve={reviews}>
+                {(loadedReviews) => <div className='user-reviews-wrapper'>
                     <FullScreenImageShow />
                     <div className='reviews-heading'>
                         <h2 className='heading'>Reviews</h2>
                     </div>
                     <div className='list-container'>
-                        {Reviews.length > 0 ? renderReviews :<NotFound image={noPhotosFound} description='Nothing here yet' /> }
+                        {loadedReviews.length > 0 ? loadedReviews.map(review => {
+                            return <ReviewCard data={review} follow='false' key={review._id} loggedInUser={loggedInUser} />
+                        }) : <NotFound image={noPhotosFound} description='Nothing here yet' />}
                     </div>
-                </div> :
-                renderLoader
-            }
-        </>
+                </div>}
+            </Await>
+        </Suspense>
     )
 }
 
-export async function loader({params}) {
-    const getReviews = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/reviews`, {
+async function getReviews(id) {
+    const getReviews = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/reviews`, {
         method: 'GET',
     });
 
-    const Reviews = await getReviews.json();
+    const reviews = await getReviews.json();
+    return reviews;
+}
 
-    const loggedInUserResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
-
-    const loggedInUser = await loggedInUserResponse.json();
-
-    return {
-        loggedInUser,
-        Reviews
-    };
+export async function loader({ params }) {
+    return defer({
+        reviews: getReviews(params.id),
+    })
 }

@@ -1,20 +1,19 @@
 import './reviewCard.scss';
-import ReviewerDetail from '../../User/Layout/FollowingFollowersCard';
+import ReviewerDetail from '../../User/Layout/FollowersFollowingCard';
 import ReviewComment from './ReviewComment';
 import LikeCommentShare from './LikeCommentShare';
 import { useContext, useEffect, useState } from 'react';
 import { formContext } from '../../../Context/form-context';
 import RestaurantCard from './RestaurantCard';
-import { useLoaderData } from 'react-router';
 
-export default function ReviewCard({ data, follow }) {
-    const { loggedInUser } = useLoaderData();
+export default function ReviewCard({ data, follow, loggedInUser}) {
     const [isFollowing, setIsFollowing] = useState(false);
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
     const [followResponse, setFollowResponse] = useState(false);
     const [reviewLikes, setReviewLikes] = useState({ count: 0, likes: [] });
     const [reviewComments, setReviewComments] = useState({ count: 0, comments: [] });
     const { handleFormVisibility, handleLoginForm } = useContext(formContext);
+    const [commentVisibility, setCommentVisibilty] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -39,7 +38,15 @@ export default function ReviewCard({ data, follow }) {
             }
         })();
         //eslint-disable-next-line
-    }, [reviewLikes, reviewComments]);
+    }, [commentVisibility]);
+
+    const handleCommentVisibilty = () => {
+        commentVisibility ? setCommentVisibilty(false) : setCommentVisibilty(true);
+    }
+
+    const handleCommentData = (data) => {
+        setCommentVisibilty(data)
+    };
 
     useEffect(() => {
         !loggedInUser.error && loggedInUser.following.forEach(following => {
@@ -100,7 +107,7 @@ export default function ReviewCard({ data, follow }) {
                 </form> : ''}
             </div>
             <ReviewComment data={data} reviewLikes={reviewLikes} comments={reviewComments} />
-            <LikeCommentShare data={data} reviewLikes={reviewLikes} comments={reviewComments} />
+            <LikeCommentShare data={data} reviewLikes={reviewLikes} comments={reviewComments} loggedInUser={loggedInUser} setCommentVisibilty={handleCommentVisibilty} commentVisibility={commentVisibility} handleCommentData={handleCommentData} />
         </div>
     )
 }

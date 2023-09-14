@@ -5,6 +5,8 @@ import { Outlet, redirect } from 'react-router';
 import { useContext } from 'react';
 import { formContext } from '../Context/form-context';
 import Footer from '../Component/Footer';
+import {useNavigation} from 'react-router';
+import UniversalLoader from '../Component/Layout/PreLoader';
 
 const activity = {
     heading: 'Activity',
@@ -34,8 +36,10 @@ const activity = {
 
 export default function UserProfile() {
     const { loggedInUser } = useContext(formContext);
+    const navigation = useNavigation();
     return (
         <>
+            {navigation.state === 'loading' && <UniversalLoader />}
             <div className='profile-page-wrapper'>
                 <ProfileCard edit='false' data={loggedInUser} />
                 <div className='profile-content-container'>
@@ -59,8 +63,29 @@ export async function loader({ params }) {
 
     const reviews = await getReviews.json();
 
+    const profileResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}`, {
+        method: 'GET',
+    });
+
+    const profile = await profileResponse.json();
+    if (profile.error) {
+        return redirect(`/user/${params.id}/reviews`)
+    }
+
+    const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/avatar`, {
+        method: 'GET',
+    });
+
+    let profilePicture;
+
+    if (profilePictureResponse.status !== 400) {
+        profilePicture = profilePictureResponse.url;
+    }
+
     return {
         reviews,
+        profile,
+        profilePicture,
     };
 }
 

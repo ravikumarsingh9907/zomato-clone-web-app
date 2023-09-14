@@ -14,7 +14,7 @@ import SearchProvider from './Context/searchProvider';
 import ProfileProvider from './Context/profileProvider';
 import FoodCardList from './Component/Restaurant/FoodCardList';
 import RestaurantGallery, { loader as restaurantGalleryLoader } from './Component/Restaurant/RestaurantGallery';
-import RestaurantReviews, { loader as restaurantReviewsLoader } from './Component/Restaurant/Reviews';
+import RestaurantReviews, {loader as restaurantReviewsLoader} from './Component/Restaurant/Reviews';
 import ProfileReviews, { loader as profileReviewsLoader } from './Component/User/Reviews';
 import ProfilePhotos, { loader as photosLoader } from './Component/User/Photos';
 import PorfileBookmarks, { loader as bookmarkLoader } from './Component/User/Bookmarks';

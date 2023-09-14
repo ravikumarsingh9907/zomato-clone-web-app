@@ -1,79 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { profileContext } from "./profile-context";
-import { useParams, redirect, useNavigation } from "react-router";
-import UniversalLoader from '../Component/Layout/PreLoader';
-import profileImg from '../Asset/user-profile.svg'
+import { useParams } from "react-router";
 
 export default function ProfileContext(props) {
-    const [profile, setProfile] = useState({fullname: '', phone: ''});
-    const [profilePicture, setProfilePicture] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isCorrectCredential, setIsCorrectCredential] = useState(false);
-    const [credentialErrorMessage, setCredentialErrorMessage] = useState({ 'color': '#ff00006e' });
-    const { id } = useParams();
-    const navigation = useNavigation();
+    const [profilePhoto, setProfilePhoto] = useState(null);
+    const [updatedProfile, setUpdatedProfile] = useState(null);
+    const {id} = useParams();
 
     useEffect(() => {
         (async () => {
-            setIsLoading(true);
-            if(window?.location?.pathname?.startsWith('/user') || navigation.location?.pathname?.startsWith('/user')) {
-                const profileResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}`, {
+            const getPorfilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/avatar`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
-                });
+            });
 
-                const profile = await profileResponse.json();
-                    if (profile.error) {
-                    return redirect(`/user/${id}/reviews`)
-                } else {
-                    setProfile(profile);
-                }
-
-                const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/avatar`, {
-                    method: 'GET',
-                });
-
-                if (profilePictureResponse.status !== 400) {
-                    setProfilePicture(profilePictureResponse.url);
-                    setIsLoading(false);
-                } else {
-                    setProfilePicture(profileImg);
-                    setIsLoading(false);
-                }
-            } else {
-                const profileResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-                });
-
-                const profile = await profileResponse.json();
-                    if (profile.error) {
-                    return redirect(`/user/${id}/reviews`)
-                } else {
-                    setProfile(profile);
-                }
-
-                const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/avatar`, {
-                    method: 'GET',
-                });
-
-                if (profilePictureResponse.status !== 400) {
-                    setProfilePicture(profilePictureResponse.url);
-                    setIsLoading(false);
-                } else {
-                    setProfilePicture(profileImg);
-                    setIsLoading(false);
-                }
+            if (getPorfilePictureResponse.status !== 400) {
+                setProfilePhoto(getPorfilePictureResponse.url);
             }
         })();
-        //eslint-disable-next-line
-    }, [credentialErrorMessage, navigation]);
+        // eslint-disable-next-line
+    }, [profilePhoto]);
 
     const handleProfilePicture = async (data) => {
         const uploadProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me/avatar', {
@@ -83,13 +31,8 @@ export default function ProfileContext(props) {
             },
             body: data
         });
-
         const result = await uploadProfilePic.json();
-        if (!result.data) {
-            setCredentialErrorMessage({ ...credentialErrorMessage, data: result });
-        } else {
-            setCredentialErrorMessage({ ...credentialErrorMessage, color: 'green', data: result.data });
-        }
+        setProfilePhoto(result);
     }
 
     const handleRemoveProfilePhoto = async () => {
@@ -100,34 +43,33 @@ export default function ProfileContext(props) {
             }
         });
 
-        const result = await removeProfilePic.json();
-
-        if (!result.data) {
-            setCredentialErrorMessage({ ...credentialErrorMessage, data: result });
-        } else {
-            setProfilePicture(null);
-            setCredentialErrorMessage({ ...credentialErrorMessage, color: 'green', data: result.data });
-        }
+        const result =  await removeProfilePic.json();
+        setProfilePhoto(result);
     }
 
-    const handleProfileUpdate = (data) => {
-        setProfile(data)
+    const handleProfileUpdate = async (data) => {
+        const getProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        const result =  await getProfilePic.json();
+        setUpdatedProfile(result);
     }
 
     const profileData = {
-        profile,
-        profilePicture,
         handleProfilePicture,
-        credentialErrorMessage,
         handleRemoveProfilePhoto,
-        setIsCorrectCredential,
-        isCorrectCredential,
+        profilePhoto,
         handleProfileUpdate,
+        updatedProfile,
     }
 
     return (
         <profileContext.Provider value={profileData}>
-            {isLoading && !profilePicture ? <UniversalLoader /> : isLoading && profilePicture ? <><div></div>{props.children}</> : props.children}
+            {props.children}
         </profileContext.Provider>
     )
 }

@@ -23,7 +23,7 @@ export default function FullScreenImageShow() {
                     </div>
                     <div className='close-image'>
                         <button className='btn' onClick={handleOnClick}>
-                            <i class='bx bx-x'></i>
+                            <i className='bx bx-x'></i>
                         </button>
                     </div>
                 </div>

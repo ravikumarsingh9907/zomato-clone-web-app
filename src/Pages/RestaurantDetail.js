@@ -56,7 +56,7 @@ export async function loader({ params }) {
         brand,
         user,
         bookmarks,
-        reviews
+        reviews,
     }
 }
 

@@ -8,9 +8,9 @@ import { profileContext } from '../../Context/profile-context';
 
 export default function ProfileCard({ edit, data }) {
     const { setEditProfileForm } = useContext(formContext);
-    const { profile, profilePicture} = useContext(profileContext);
     const [isFollow, setIsFollow] = useState(false);
-    const { reviews } = useLoaderData();
+    const { reviews, profile } = useLoaderData();
+    const { updatedProfile, profilePhoto } = useContext(profileContext);
     const [style, setStyle] = useState('100%');
     const [totalPhotosPosted, setTotalPhotosPosted] = useState(0);
     const navigation = useNavigation();
@@ -25,7 +25,7 @@ export default function ProfileCard({ edit, data }) {
 
         setTotalPhotosPosted(count);
         //eslint-disable-next-line
-    }, [profilePicture])
+    }, [profilePhoto])
 
     useEffect(() => {
         if (navigation.state === 'submitting' || navigation.state === 'loading') {
@@ -36,8 +36,8 @@ export default function ProfileCard({ edit, data }) {
     }, [navigation]);
 
     useEffect(() => {
-        data && data.users && profile.followers.forEach(follower => {
-            if (follower.email === data.users.email) {
+        data && data.user && profile.followers.forEach(follower => {
+            if (follower.email === data.user.email) {
                 return setIsFollow(true);
             }
         });
@@ -55,11 +55,11 @@ export default function ProfileCard({ edit, data }) {
                 <div className='profile-image-name-container'>
                     <div className='image-container'>
                         <div className='image'>
-                            <img src={profilePicture || profileImg} alt='profile-img' />
+                            <img src={profilePhoto || profileImg} alt='profile-img' />
                         </div>
                     </div>
                     <div className='name-container'>
-                        <p className='name'>{profile.fullname}</p>
+                        <p className='name'>{updatedProfile ? updatedProfile.fullname : profile.fullname}</p>
                     </div>
                 </div>
                 <div className='profile-followers-reviews-edit-container'>

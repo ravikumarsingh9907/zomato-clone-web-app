@@ -1,21 +1,24 @@
 import './followingFollowers.scss';
 import profileImg from '../../../Asset/user-profile.svg';
-import { Form, Link } from 'react-router-dom';
+import { Form, Link, useNavigation } from 'react-router-dom';
 import { formContext } from '../../../Context/form-context';
 import { useContext, useEffect, useState } from 'react';
+import UniversalLoader from '../../Layout/PreLoader';
 
 export default function FollowingFollowersCard({ data, edit }) {
-    const {loggedInUser} = useContext(formContext);
+    const { loggedInUser } = useContext(formContext);
     const [redirectLink, setRedirectLink] = useState(`/user/${data._id}/reviews`);
+    const navigation = useNavigation();
 
     useEffect(() => {
-        if(loggedInUser && loggedInUser.users && data.email === loggedInUser.users.email) {
+        if (loggedInUser && loggedInUser.users && data.email === loggedInUser.users.email) {
             setRedirectLink(`/profile/${data._id}/reviews`)
         }
-    }, [loggedInUser, data])
+    }, [loggedInUser, data]);
 
     return (
         <>
+            {navigation.state === 'loading' && <UniversalLoader />}
             <div className='following-followers-container'>
                 <Link to={redirectLink} className='image-container'>
                     <img src={profileImg} alt='img' />
@@ -34,5 +37,5 @@ export default function FollowingFollowersCard({ data, edit }) {
                 </Form>}
             </div>
         </>
-    )
+    );
 }
