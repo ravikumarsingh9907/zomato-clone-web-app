@@ -8,6 +8,7 @@ import ReviewsLoader from './Loaders/ReviewLoader';
 import UnviersalLoader from '../Layout/PreLoader';
 import NotFound from '../User/Layout/NotFound';
 import noDishFound from '../../Asset/no-food-found.webp'
+import { fetchData } from '../../Utilities/api';
 
 export default function FoodCardList() {
     const [inputValue, setInputValue] = useState('');
@@ -19,12 +20,9 @@ export default function FoodCardList() {
 
     useEffect(() => {
         (async () => {
-            const getDishes = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${id}/dishes`, {
-                method: 'GET',
-            });
-            const dishList = await getDishes.json();
-            dishList.dishes && setDishes([...dishList.dishes]);
-        })()
+            const dishList = await fetchData(`/restaurants/${id}/dishes`);
+            dishList?.dishes && setDishes([...dishList.dishes]);
+        })();
         //eslint-disable-next-line 
 }, [inputValue]);
 
@@ -57,16 +55,8 @@ const clearInputValue = () => {
 
 const handleClickEvent = async (e) => {
     e.preventDefault();
-    const getDishes = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${id}/dishes?dish=${queryRef.current}`, {
-        method: 'GET',
-    });
-    const dishList = await getDishes.json();
-
-    if(dishList.dishes) {
-        setDishes([...dishList.dishes]);
-    } else {
-        setDishes([]);
-    }
+    const dishList = await fetchData(`/restaurants/${id}/dishes?dish=${queryRef.current}`);
+    setDishes(dishList.dishes || []);
 }
 
 return (

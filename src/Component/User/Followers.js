@@ -3,6 +3,7 @@ import './followers.scss';
 import FollowersFollowingList from './Layout/FollowersList';
 import { Await, defer, redirect, useLoaderData } from 'react-router';
 import FollowersLoader from './Loaders/FollowersLoader';
+import { fetchData } from '../../Utilities/api';
 
 export default function ProfileFollowers({ edit }) {
     const [activeBtn, setActiveBtn] = useState('followers');
@@ -44,13 +45,7 @@ const {data} = useLoaderData();
 }
 
 async function loadData(id) {
-    const followersResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/follow`, {
-        method: 'GET',
-    });
-
-    const followersFollowing = await followersResponse.json();
-
-    return followersFollowing;
+    return await fetchData(`/users/${id}/follow`);
 }
 
 export async function loader({ params }) {

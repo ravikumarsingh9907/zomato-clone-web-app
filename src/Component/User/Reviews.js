@@ -6,6 +6,7 @@ import ReviewCard from '../Restaurant/Layout/ReviewCard';
 import ReviewsLoader from '../Restaurant/Loaders/ReviewLoader';
 import FullScreenImageShow from '../FullScreenImageShow';
 import { Suspense, useEffect, useState } from 'react';
+import { fetchData } from '../../Utilities/api';
 
 export default function ProfileReviews() {
     const { reviews } = useLoaderData();
@@ -45,16 +46,9 @@ export default function ProfileReviews() {
 }
 
 async function getReviews(id) {
-    const getReviews = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/reviews`, {
-        method: 'GET',
-    });
-
-    const reviews = await getReviews.json();
-    return reviews;
+    return await fetchData(`/users/${id}/reviews`);
 }
 
 export async function loader({ params }) {
-    return defer({
-        reviews: getReviews(params.id),
-    })
+    return defer({ reviews: getReviews(params.id) });
 }

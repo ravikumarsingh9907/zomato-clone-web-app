@@ -5,6 +5,7 @@ import LocationProvider from '../Context/locationProvider';
 import { useLoaderData, useNavigation } from 'react-router';
 import UniversalLoader from '../Component/Layout/PreLoader';
 import Footer from "../Component/Footer";
+import { fetchData } from '../Utilities/api';
 
 export default function Home() {
     const { brands, cuisines } = useLoaderData();
@@ -33,24 +34,8 @@ export default function Home() {
 }
 
 export async function loader() {
-    const brandResponse = await fetch("https://foodie-api-nine.vercel.app/restaurants", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
+    const {brands} = await fetchData("/restaurants");
+    const {cuisines} = await fetchData("/cuisines");
 
-    const cuisineResponse = await fetch("https://foodie-api-nine.vercel.app/cuisines", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-
-    const { brands } = await brandResponse.json();
-    const { cuisines } = await cuisineResponse.json();
-    return {
-        brands,
-        cuisines,
-    };
+    return { brands, cuisines };
 }

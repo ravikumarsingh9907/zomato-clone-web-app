@@ -5,6 +5,7 @@ import LikeCommentShare from './LikeCommentShare';
 import { useContext, useEffect, useState } from 'react';
 import { formContext } from '../../../Context/form-context';
 import RestaurantCard from './RestaurantCard';
+import { fetchData } from '../../../Utilities/api';
 
 export default function ReviewCard({ data, follow, loggedInUser}) {
     const [isFollowing, setIsFollowing] = useState(false);
@@ -17,28 +18,13 @@ export default function ReviewCard({ data, follow, loggedInUser}) {
 
     useEffect(() => {
         (async () => {
-            const reviewLikesResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
-                method: 'GET',
-            });
+            const reviewLikesData = await fetchData(`/restaurants/${data.brand._id}/reviews/${data._id}/like`);
+            const reviewCommentData = await fetchData(`/restaurants/${data.brand._id}/reviews/${data._id}/comment`);
 
-            const reviewLikesData = await reviewLikesResponse.json();
-
-            const reviewCommentResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment`, {
-                method: 'GET',
-            });
-
-            const reviewCommentData = await reviewCommentResponse.json();
-
-            if (reviewLikesData.likes) {
-                setReviewLikes(reviewLikesData);
-            }
-
-            if (reviewCommentData.comments) {
-                setReviewComments(reviewCommentData);
-            }
+            if (reviewLikesData.likes) setReviewLikes(reviewLikesData);
+            if (reviewCommentData.comments) setReviewComments(reviewCommentData);
         })();
-        //eslint-disable-next-line
-    }, [commentVisibility]);
+    }, [commentVisibility, data]);
 
     const handleCommentVisibilty = () => {
         commentVisibility ? setCommentVisibilty(false) : setCommentVisibilty(true);

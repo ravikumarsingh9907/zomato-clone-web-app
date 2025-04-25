@@ -3,6 +3,7 @@ import RestDetailHeader from '../Component/Restaurant/RestDetailHeader';
 import FoodDetailNavbar from '../Component/Restaurant/FoodDetailNavbar';
 import { Outlet, redirect } from 'react-router';
 import Footer from '../Component/Footer';
+import { fetchData } from '../Utilities/api';
 
 export default function RestaurantDetail() {
     return (
@@ -18,46 +19,18 @@ export default function RestaurantDetail() {
 }
 
 export async function loader({ params }) {
-    const response = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}`, {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    const {brand} = await fetchData(`/restaurants/${params.id}`);
+    
+    const user = await fetchData('/users/me', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    const {bookmarks} = await fetchData(`/users/${user._id}/bookmarks`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
 
-    const userResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
+    const reviews = await fetch(`/restaurants/${params.id}/reviews`);
 
-    const user = await userResponse.json();
-    const { brand } = await response.json();
-
-    const bookmarkResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${user._id}/bookmarks`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
-
-    const { bookmarks } = await bookmarkResponse.json();
-
-    const reviewResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}/reviews`, {
-        method: 'GET',
-    });
-
-    const reviews = await reviewResponse.json();
-
-    return {
-        brand,
-        user,
-        bookmarks,
-        reviews,
-    }
+    return { brand, user, bookmarks, reviews };
 }
 
 export async function action({ request, params }) {

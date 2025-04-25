@@ -31,16 +31,10 @@ export default function RestDetailHeader() {
     }, [])
 
     useEffect(() => {
-        const data = bookmarks && bookmarks.length > 0 && bookmarks.filter((bookmark) => {
-            return bookmark.name === brand.name;
-        });
-
-        if (data && data.length !== 0) {
-            setIsBookMarked(true);
-        } else {
-            setIsBookMarked(false);
-        }
-
+        (async () => {
+            const data = bookmarks?.length > 0 ? bookmarks.filter((bookmark) => bookmark.name === brand.name) : [];
+            setIsBookMarked(data?.length !== 0);
+        })();
     }, [bookmarks, brand]);
 
     const handleBookMarkClick = () => {

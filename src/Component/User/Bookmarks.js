@@ -5,6 +5,7 @@ import NotFound from './Layout/NotFound';
 import noBookMarkFound from '../../Asset/bookmark-no-bookmark-yet.avif';
 import BookmarksLoader from './Loaders/BookmarksLoader';
 import { Suspense } from 'react';
+import { fetchData } from '../../Utilities/api';
 
 export default function PorfileBookmarks() {
     const { bookmarks } = useLoaderData();
@@ -28,20 +29,11 @@ export default function PorfileBookmarks() {
 }
 
 async function loadBookmarks(id) {
-    const bookmarkResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/bookmarks`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+    return await fetchData(`/users/${id}/bookmarks`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-
-    const { bookmarks } = await bookmarkResponse.json();
-
-    return { bookmarks };
 }
 
 export async function loader({ params }) {
-    return defer({
-        bookmarks: loadBookmarks(params.id)
-    })
+    return defer({ bookmarks: loadBookmarks(params.id) });
 }

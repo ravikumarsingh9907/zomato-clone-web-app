@@ -4,9 +4,9 @@ import { Form, Link, useNavigation } from 'react-router-dom';
 import { formContext } from '../../../Context/form-context';
 import { useContext, useEffect, useState } from 'react';
 import UniversalLoader from '../../Layout/PreLoader';
+import { fetchDataMultipart } from '../../../Utilities/api';
 
 export default function FollowingFollowersCard({ data, edit }) {
-    console.log(data);
     const { loggedInUser } = useContext(formContext);
     const [redirectLink, setRedirectLink] = useState(`/user/${data._id}/reviews`);
     const navigation = useNavigation();
@@ -18,9 +18,7 @@ export default function FollowingFollowersCard({ data, edit }) {
         }
 
         (async () => {
-            const picture = await fetch(`https://foodie-api-nine.vercel.app/users/${data._id}/avatar`, {
-                method: "GET",
-            });
+            const picture = await fetchDataMultipart(`/users/${data._id}/avatar`);
 
             if(picture.status !== 400) {
                 setProfilePicture(picture.url);
