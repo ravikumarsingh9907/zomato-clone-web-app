@@ -7,6 +7,7 @@ import { formContext } from '../Context/form-context';
 import Footer from '../Component/Footer';
 import {useNavigation} from 'react-router';
 import UniversalLoader from '../Component/Layout/PreLoader';
+import { fetchData, fetchDataMultipart } from '../Utilities/api';
 
 const activity = {
     heading: 'Activity',
@@ -57,24 +58,14 @@ export default function UserProfile() {
 }
 
 export async function loader({ params }) {
-    const getReviews = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/reviews`, {
-        method: 'GET',
-    });
+    const reviews = await fetchData(`/users/${params.id}/reviews`);
 
-    const reviews = await getReviews.json();
-
-    const profileResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}`, {
-        method: 'GET',
-    });
-
-    const profile = await profileResponse.json();
+    const profile = await fetchData(`/users/${params.id}`);
     if (profile.error) {
         return redirect(`/user/${params.id}/reviews`)
     }
 
-    const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/avatar`, {
-        method: 'GET',
-    });
+    const profilePictureResponse = await fetchDataMultipart(`/users/${params.id}/avatar`);
 
     let profilePicture;
 

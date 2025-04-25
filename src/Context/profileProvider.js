@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { profileContext } from "./profile-context";
 import { useParams } from "react-router";
+import { fetchData, fetchDataMultipart } from "../Utilities/api";
 
 export default function ProfileContext(props) {
     const [profilePhoto, setProfilePhoto] = useState(null);
@@ -9,8 +10,7 @@ export default function ProfileContext(props) {
 
     useEffect(() => {
         (async () => {
-            const getPorfilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${id}/avatar`, {
-                method: 'GET',
+            const getPorfilePictureResponse = await fetchDataMultipart(`/users/${id}/avatar`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -48,14 +48,11 @@ export default function ProfileContext(props) {
     }
 
     const handleProfileUpdate = async (data) => {
-        const getProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-            method: 'GET',
+        const result = await fetchData('/users/me', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
-
-        const result =  await getProfilePic.json();
         setUpdatedProfile(result);
     }
 

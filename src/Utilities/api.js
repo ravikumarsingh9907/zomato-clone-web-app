@@ -9,10 +9,6 @@ export async function fetchData(endpoint, options = {}) {
         ...options,
     });
 
-    if (!response.ok) {
-        return;
-    }
-
     const res = await response.json();
     return res;
 }
@@ -24,10 +20,6 @@ export async function fetchDataMultipart(endpoint, options = {}) {
         },
         ...options,
     });
-
-    if (!response.ok) {
-        return;
-    }
     
     return response;
 }

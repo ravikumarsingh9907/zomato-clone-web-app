@@ -4,6 +4,7 @@ import Sidebar from '../Component/User/Sidebar';
 import { Outlet, redirect } from 'react-router';
 import Footer from '../Component/Footer';
 import EditProfile from '../Component/User/EditProfile';
+import { fetchData, fetchDataMultipart } from '../Utilities/api';
 
 const activity = {
     heading: 'Activity',
@@ -52,27 +53,19 @@ export default function Profile() {
 }
 
 export async function loader({ params }) {
-    const getReviews = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/reviews`, {
-        method: 'GET',
-    });
+    const reviews = await fetchData(`/users/${params.id}/reviews`);
 
-    const reviews = await getReviews.json();
-
-    const profileResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-        method: 'GET',
+    const profile = await fetchData('/users/me', {
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
 
-    const profile = await profileResponse.json();
     if (profile.error) {
         return redirect(`/user/${params.id}/reviews`)
     }
 
-    const profilePictureResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${profile._id}/avatar`, {
-        method: 'GET',
+    const profilePictureResponse = await fetchDataMultipart(`/users/${profile._id}/avatar`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },

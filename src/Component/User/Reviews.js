@@ -14,15 +14,12 @@ export default function ProfileReviews() {
 
     useEffect(() => {
         (async () => {
-            const loggedInUserResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-                method: 'GET',
+            const loggedInUserResponse = await fetchData('/users/me', {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-
-            const loggedInUser = await loggedInUserResponse.json();
-            setLoggedInUser(loggedInUser);
+            setLoggedInUser(loggedInUserResponse);
         })();
     }, []);
 

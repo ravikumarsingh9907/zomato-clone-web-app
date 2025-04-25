@@ -7,6 +7,7 @@ import { formContext } from '../Context/form-context';
 import { Outlet, Link, useLoaderData, Form, redirect } from 'react-router-dom';
 import SearchCard from './Layout/SearchCard';
 import { searchContext } from '../Context/search-context';
+import { fetchData, fetchDataMultipart } from '../Utilities/api';
 
 export default function Navbar() {
     const { user, profilePicture } = useLoaderData();
@@ -31,14 +32,7 @@ export default function Navbar() {
 
     const userGet = async function (e) {
         if (e.target.value) {
-            const response = await fetch(`https://foodie-api-nine.vercel.app/restaurants?query=${e.target.value}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const { brands } = await response.json();
+            const { brands } = await fetchData(`/restaurants?query=${e.target.value}`);
             setSearchSuggestion(brands);
             handleIsOpen(true);
         } else {
@@ -131,19 +125,13 @@ export default function Navbar() {
 };
 
 export async function loader() {
-    const response = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-        method: 'GET',
+    const user = await fetchData('/users/me', {
         headers: {
-            'Content-Type': "application/json",
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
 
-    const user = await response.json();
-
-    const responseProfilePicture = await fetch(`https://foodie-api-nine.vercel.app/users/${user._id}/avatar`, {
-        method: 'GET',
-    });
+    const responseProfilePicture = await fetchDataMultipart(`/users/${user._id}/avatar`);
 
     let profilePicture;
 

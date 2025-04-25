@@ -12,6 +12,7 @@ import WriteReview from './WriteReview';
 import { reviewContext } from '../../Context/review-context';
 import { formContext } from '../../Context/form-context';
 import FullScreenImageShow from '../FullScreenImageShow';
+import { fetchData } from '../../Utilities/api';
 
 export default function Reviews() {
     const { loggedInUser } = useLoaderData();
@@ -38,11 +39,7 @@ export default function Reviews() {
 
     useEffect(() => {
         (async () => {
-            const reviewsResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${id}/reviews`, {
-                method: 'GET',
-            });
-
-            const reviews = await reviewsResponse.json();
+            const reviews = await fetchData(`/restaurants/${id}/reviews`);
             setReviews(reviews)
         })();
         //eslint-disable-next-line
@@ -56,7 +53,7 @@ export default function Reviews() {
         }
     }
 
-    const renderCards = reviews.map(review => {
+    const renderCards = reviews && reviews.map(review => {
         return (
             <ReviewCard data={review}  key={review._id} loggedInUser={loggedInUser}/>
         )
@@ -86,14 +83,11 @@ export default function Reviews() {
 }
 
 export async function loader() {
-    const loggedInUserResponse = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-        method: 'GET',
+    const loggedInUser = await fetchData('/users/me', {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
-
-    const loggedInUser = await loggedInUserResponse.json();
 
     return {
         loggedInUser,
