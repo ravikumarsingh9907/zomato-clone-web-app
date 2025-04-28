@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import './likeCommentShare.scss';
 import CommentProfile from '../../User/Layout/FollowersFollowingCard';
-import { formContext } from '../../../Context/form-context';
+import { formContext } from '../../../Context/formProvider';
 import { deleteData, patchData } from '../../../Utilities/api';
 
 export default function LikeCommentShare({ data, reviewLikes, comments, loggedInUser, commentVisibility, setCommentVisibilty, handleCommentData }) {

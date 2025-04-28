@@ -1,5 +1,10 @@
 import { useState, useRef } from "react";
-import { imageMagnifier } from "./image-magnifier";
+
+import { createContext } from "react";
+
+const imageMagnifier = createContext({});
+
+export {imageMagnifier};
 
 export default function ImageMagnifier(props) {
     const [isOpen, SetIsOpen] = useState(false);

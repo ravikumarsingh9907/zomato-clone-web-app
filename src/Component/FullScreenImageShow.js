@@ -1,5 +1,5 @@
 import './fullScreenImageShow.scss';
-import { imageMagnifier } from '../Context/image-magnifier';
+import { imageMagnifier } from '../Context/imageMagnifierProvider';
 import { useContext } from 'react';
 
 export default function FullScreenImageShow() {

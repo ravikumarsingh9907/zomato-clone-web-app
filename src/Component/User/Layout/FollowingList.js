@@ -1,7 +1,7 @@
 import './followingFollowers.scss';
 import profileImg from '../../../Asset/user-profile.svg';
 import { Form, Link } from 'react-router-dom';
-import { formContext } from '../../../Context/form-context';
+import { formContext } from '../../../Context/formProvider';
 import { useContext, useEffect, useState } from 'react';
 import noFollowerFoundImg from '../../../Asset/followers-no-followers-yet.avif';
 import NotFound from './NotFound';

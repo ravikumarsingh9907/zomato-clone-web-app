@@ -1,7 +1,7 @@
 import './followingFollowers.scss';
 import profileImg from '../../../Asset/user-profile.svg';
 import { Form, Link, useNavigation } from 'react-router-dom';
-import { formContext } from '../../../Context/form-context';
+import { formContext } from '../../../Context/formProvider';
 import { useContext, useEffect, useState } from 'react';
 import UniversalLoader from '../../Layout/PreLoader';
 import { fetchDataMultipart } from '../../../Utilities/api';

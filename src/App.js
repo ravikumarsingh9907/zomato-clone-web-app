@@ -14,12 +14,13 @@ import SearchProvider from './Context/searchProvider';
 import ProfileProvider from './Context/profileProvider';
 import FoodCardList from './Component/Restaurant/FoodCardList';
 import RestaurantGallery, { loader as restaurantGalleryLoader } from './Component/Restaurant/RestaurantGallery';
-import RestaurantReviews, {loader as restaurantReviewsLoader} from './Component/Restaurant/Reviews';
+import RestaurantReviews, { loader as restaurantReviewsLoader } from './Component/Restaurant/Reviews';
 import ProfileReviews, { loader as profileReviewsLoader } from './Component/User/Reviews';
 import ProfilePhotos, { loader as photosLoader } from './Component/User/Photos';
 import PorfileBookmarks, { loader as bookmarkLoader } from './Component/User/Bookmarks';
 import ProfileFollowers, { loader as followDataLoader, action as RemoveFollowingAction } from './Component/User/Followers';
 import ImageMagnifierProvider from './Context/imageMagnifierProvider';
+import CartProvider from './Context/cartProvider';
 
 const router = createBrowserRouter([
   {
@@ -54,7 +55,9 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/restaurants/:id/online-order',
-            element: <FoodCardList />,
+            element: (<CartProvider>
+              <FoodCardList />
+            </CartProvider>),
           },
           {
             path: '/restaurants/:id/gallery',
@@ -113,7 +116,7 @@ const router = createBrowserRouter([
           <ProfileProvider>
             <UserProfile />
           </ProfileProvider>
-          </FormProvider>),
+        </FormProvider>),
         loader: userPorfilePictureLoader,
         action: FollowUnFollowAction,
         children: [

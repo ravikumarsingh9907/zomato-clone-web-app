@@ -9,8 +9,8 @@ import UnviersalLoader from '../Layout/PreLoader';
 import NotFound from '../User/Layout/NotFound';
 import noFoundReview from '../../Asset/reviews-nothing-here-yet.avif';
 import WriteReview from './WriteReview';
-import { reviewContext } from '../../Context/review-context';
-import { formContext } from '../../Context/form-context';
+import { reviewContext } from '../../Context/reviewProvider';
+import { formContext } from '../../Context/formProvider';
 import FullScreenImageShow from '../FullScreenImageShow';
 import { fetchData } from '../../Utilities/api';
 

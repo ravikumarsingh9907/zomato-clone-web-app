@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import './reviewComment.scss';
 import moment from 'moment';
-import { imageMagnifier } from '../../../Context/image-magnifier';
+import { imageMagnifier } from '../../../Context/imageMagnifierProvider';
 
 export default function ReviewComment({ data, reviewLikes, comments }) {
     const [ratingColor, setRatingColor] = useState('');

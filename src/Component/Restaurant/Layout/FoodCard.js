@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import './foodCard.scss';
 
-export default function FoodCard({ data }) {
+export default function FoodCard({ data, addToCart, removeFromCart, quantity }) {
     const [toggleDescription, setToogleDescription] = useState(false);
 
     useEffect(() => {
-        if(data.description.length > 110) {
+        if (data.description.length > 110) {
             setToogleDescription(!toggleDescription)
         }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDescriptionClick = () => {
-        if(data.description.length > 110) {
+        if (data.description.length > 110) {
             setToogleDescription(!toggleDescription)
         }
     }
@@ -22,7 +22,7 @@ export default function FoodCard({ data }) {
         <div className='food-card-container'>
             <div className='image-container'>
                 <div className='image'>
-                    <img src={data.image} alt='img'/>
+                    <img src={data.image} alt='img' />
                 </div>
             </div>
             <div className='about-food-container'>
@@ -38,9 +38,19 @@ export default function FoodCard({ data }) {
                 <div className='food-description'>
                     <p className='description'>
                         {toggleDescription && data.description.length > 110 ? data.description.slice(0, 110) + '...' : data.description}
-                        { toggleDescription && <span onClick={handleDescriptionClick}>read more</span> }
+                        {toggleDescription && <span onClick={handleDescriptionClick}>read more</span>}
                     </p>
                 </div>
+                {quantity ? <div className="food-card-actions">
+                <button onClick={() => removeFromCart(data._id)} disabled={quantity === 0}>
+                    -
+                </button>
+                <span>{quantity}</span>
+                <button onClick={() => addToCart(data._id)}>+</button>
+            </div> :
+                <div className="food-card-actions">
+                    <button onClick={() => addToCart(data._id)}>Add</button>
+                </div>}
             </div>
         </div>
     )

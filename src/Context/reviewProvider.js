@@ -1,5 +1,9 @@
-import { reviewContext } from "./review-context";
 import { useState } from "react";
+import { createContext } from "react";
+
+const reviewContext = createContext({});
+
+export { reviewContext };
 
 export default function ReviewProvider(props) {
     const [isFormVisibile, setIsFormVisible] = useState('write-review-wrapper hidden');

@@ -1,6 +1,6 @@
 import './restaurantList.scss';
 import RectangleCard from './Layout/RectangleCard';
-import { locationContext } from '../Context/location-context';
+import { locationContext } from '../Context/locationProvider';
 import { useContext, useEffect } from 'react';
 import { useLoaderData } from "react-router-dom";
 

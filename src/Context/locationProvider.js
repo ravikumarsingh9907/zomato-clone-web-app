@@ -1,6 +1,11 @@
-import { locationContext } from "./location-context";
 import axios from 'axios';
 import { useState } from "react";
+
+import { createContext } from "react";
+
+const locationContext = createContext({});
+
+export {locationContext};
 
 export default function LocationProvider(props) {
     const [location, setLocation] = useState('New Delhi');

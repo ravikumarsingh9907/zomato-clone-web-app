@@ -1,6 +1,6 @@
 import './searchCard.scss';
 import { Link } from 'react-router-dom';
-import { searchContext } from '../../Context/search-context';
+import { searchContext } from '../../Context/searchProvider';
 import { useContext } from 'react';
 
 export default function SearchCard({ data }) {

@@ -8,7 +8,7 @@ import UnviersalLoader from '../Layout/PreLoader';
 import NotFound from '../User/Layout/NotFound';
 import noFoundPhotos from '../../Asset/photos-not-posted-yet.avif';
 import FullScreenImageShow from '../FullScreenImageShow';
-import { imageMagnifier } from '../../Context/image-magnifier';
+import { imageMagnifier } from '../../Context/imageMagnifierProvider';
 import { fetchData } from '../../Utilities/api';
 
 export default function RestaurantGallery() {

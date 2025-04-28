@@ -1,8 +1,8 @@
 import './editProfile.scss';
 import profileImg from '../../Asset/user-profile.svg';
 import { useContext, useRef, useState } from 'react';
-import { formContext } from '../../Context/form-context';
-import { profileContext } from '../../Context/profile-context';
+import { formContext } from '../../Context/formProvider';
+import { profileContext } from '../../Context/profileProvider';
 import { useLoaderData } from 'react-router';
 import { patchData } from '../../Utilities/api';
 

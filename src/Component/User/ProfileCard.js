@@ -3,8 +3,8 @@ import profileImg from '../../Asset/user-profile.svg';
 import { useLoaderData, useNavigation } from 'react-router';
 import { useContext, useEffect, useState } from 'react';
 import { Form } from 'react-router-dom';
-import { formContext } from '../../Context/form-context';
-import { profileContext } from '../../Context/profile-context';
+import { formContext } from '../../Context/formProvider';
+import { profileContext } from '../../Context/profileProvider';
 
 export default function ProfileCard({ edit, data }) {
     const { setEditProfileForm } = useContext(formContext);

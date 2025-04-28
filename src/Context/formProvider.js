@@ -1,5 +1,10 @@
-import { formContext } from "./form-context";
 import { useEffect, useState } from "react";
+
+import { createContext } from "react";
+
+const formContext = createContext({});
+
+export {formContext};
 
 export default function FormProvider(props) {
     const [isLogin, setIsLogin] = useState(true);

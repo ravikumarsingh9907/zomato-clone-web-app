@@ -1,7 +1,7 @@
 import './form.scss';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useContext, useState } from 'react';
-import { formContext } from '../Context/form-context';
+import { formContext } from '../Context/formProvider';
 import * as yup from 'yup';
 import { postData } from '../Utilities/api';
 

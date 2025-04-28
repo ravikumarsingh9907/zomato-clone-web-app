@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
-import { profileContext } from "./profile-context";
 import { useParams } from "react-router";
 import { deleteData, fetchData, fetchDataMultipart, postData } from "../Utilities/api";
+
+import { createContext } from "react";
+
+export const profileContext = createContext({});
 
 export default function ProfileContext(props) {
     const [profilePhoto, setProfilePhoto] = useState(null);

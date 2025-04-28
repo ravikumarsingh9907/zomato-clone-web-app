@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import './writeReview.scss';
-import { reviewContext } from '../../Context/review-context';
+import { reviewContext } from '../../Context/reviewProvider';
 import { postData } from '../../Utilities/api';
 
 export default function WriteComment() {

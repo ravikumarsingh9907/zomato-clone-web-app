@@ -2,11 +2,11 @@ import './navbar.scss';
 import zomatoLogo from '../Asset/zomato-svgrepo-com.png';
 import useProfile from '../Asset/user-profile.svg';
 import { useEffect, useContext, useState } from 'react';
-import { locationContext } from '../Context/location-context';
-import { formContext } from '../Context/form-context';
+import { locationContext } from '../Context/locationProvider';
+import { formContext } from '../Context/formProvider';
 import { Outlet, Link, useLoaderData, Form, redirect } from 'react-router-dom';
 import SearchCard from './Layout/SearchCard';
-import { searchContext } from '../Context/search-context';
+import { searchContext } from '../Context/searchProvider';
 import { fetchData, fetchDataMultipart, postData } from '../Utilities/api';
 
 export default function Navbar() {

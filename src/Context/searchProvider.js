@@ -1,5 +1,7 @@
-import { searchContext } from "./search-context";
 import { useState } from "react";
+import { createContext } from "react";
+
+export const searchContext = createContext({});
 
 export default function SearchProvider(props) {
     const [isOpen, setIsOpen] = useState(false);
