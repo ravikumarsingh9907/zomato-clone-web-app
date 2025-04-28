@@ -4,6 +4,7 @@ import { useContext, useRef, useState } from 'react';
 import { formContext } from '../../Context/form-context';
 import { profileContext } from '../../Context/profile-context';
 import { useLoaderData } from 'react-router';
+import { patchData } from '../../Utilities/api';
 
 export default function EditProfile() {
     const [editIsOpen, setEditIsOpen] = useState(false);
@@ -52,16 +53,15 @@ export default function EditProfile() {
         e.preventDefault();
 
         setIsLoading(true);
-        const updateInfo = await fetch('https://foodie-api-nine.vercel.app/users/me', {
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ fullname: input.fullname, phone: input.phone }),
-        });
+        const result = await patchData('/users/me',
+            JSON.stringify({ fullname: input.fullname, phone: input.phone }),
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+            });
 
-        const result = await updateInfo.json();
         if (result.user) {
             handleProfileUpdate(result.user);
             setIsLoading(false);

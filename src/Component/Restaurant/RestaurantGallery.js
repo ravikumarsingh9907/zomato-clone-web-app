@@ -9,6 +9,7 @@ import NotFound from '../User/Layout/NotFound';
 import noFoundPhotos from '../../Asset/photos-not-posted-yet.avif';
 import FullScreenImageShow from '../FullScreenImageShow';
 import { imageMagnifier } from '../../Context/image-magnifier';
+import { fetchData } from '../../Utilities/api';
 
 export default function RestaurantGallery() {
     const { brand } = useLoaderData();
@@ -61,14 +62,11 @@ export default function RestaurantGallery() {
 }
 
 export async function loader({ params }) {
-    const response = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}`, {
-        method: "GET",
+    const {brand} = await fetchData(`/restaurants/${params.id}`, {
         headers: {
             'Content-Type': 'application/json'
         },
     });
-
-    const { brand } = await response.json();
 
     return {
         brand,

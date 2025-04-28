@@ -3,7 +3,7 @@ import './followers.scss';
 import FollowersFollowingList from './Layout/FollowersList';
 import { Await, defer, redirect, useLoaderData } from 'react-router';
 import FollowersLoader from './Loaders/FollowersLoader';
-import { fetchData } from '../../Utilities/api';
+import { deleteData, fetchData } from '../../Utilities/api';
 
 export default function ProfileFollowers({ edit }) {
     const [activeBtn, setActiveBtn] = useState('followers');
@@ -55,14 +55,11 @@ export async function loader({ params }) {
 }
 
 export async function action({ params }) {
-    const removeFollowing = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/follow`, {
-        method: 'DELETE',
+    const removedUser = await deleteData(`/users/${params.id}/follow`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
-
-    const removedUser = await removeFollowing.json();
 
     if (removedUser.success) {
         return redirect(window.location.pathname);

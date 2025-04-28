@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import './writeReview.scss';
 import { reviewContext } from '../../Context/review-context';
+import { postData } from '../../Utilities/api';
 
 export default function WriteComment() {
     const [rating, setRating] = useState(0);
@@ -43,15 +44,12 @@ export default function WriteComment() {
         }
 
         setIsLoading(true);
-        const uploadResponse = await fetch(`https://foodie-api-nine.vercel.app${window.location.pathname}`, {
-            method: 'POST',
+        const result = await postData(`${window.location.pathname}`, formData, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
-            body: formData,
         })
 
-        const result = await uploadResponse.json();
         if (result._id) {
             setIsLoading(false);
             handleReviewFormVisibility('write-review-wrapper hidden');

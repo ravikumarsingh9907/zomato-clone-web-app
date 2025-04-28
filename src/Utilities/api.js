@@ -1,4 +1,4 @@
-const BASE_URL = process.env.REACT_APP_API_URL || 'https://foodie-api-nine.vercel.app';
+const BASE_URL = 'https://foodie-api-nine.vercel.app';
 
 export async function fetchData(endpoint, options = {}) {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -24,18 +24,18 @@ export async function fetchDataMultipart(endpoint, options = {}) {
     return response;
 }
 
-export async function postData(endpoint, body, options = {}) {
+export async function postData(endpoint, body = '', options = {}) {
     return fetchData(endpoint, {
         method: 'POST',
-        body: JSON.stringify(body),
+        body,
         ...options,
     });
 }
 
-export async function patchData(endpoint, body, options = {}) {
+export async function patchData(endpoint, body = '', options = {}) {
     return fetchData(endpoint, {
         method: 'PATCH',
-        body: JSON.stringify(body),
+        body,
         ...options,
     });
 }

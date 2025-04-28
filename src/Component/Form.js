@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useContext, useState } from 'react';
 import { formContext } from '../Context/form-context';
 import * as yup from 'yup';
+import { postData } from '../Utilities/api';
 
 export default function Forms() {
     const [credentialErrorMessage, setCredentialErrorMessage] = useState('');
@@ -59,15 +60,12 @@ export default function Forms() {
     const onSubmit = async (values) => {
         setIsLoading(true);
         if (values.fullname) {
-            const response = await fetch("https://foodie-api-nine.vercel.app/users/signup", {
-                method: 'POST',
+            const data = await postData("/users/signup", JSON.stringify(values), {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
             });
 
-            const data = await response.json();
             if (!data.token) {
                 setIsCorrectCredential(true);
                 setCredentialErrorMessage(data);
@@ -79,15 +77,12 @@ export default function Forms() {
                 setIsLoading(false);
             }
         } else {
-            const response = await fetch("https://foodie-api-nine.vercel.app/users/login", {
-                method: "POST",
+            const data = await postData("/users/login", JSON.stringify(values), {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(values),
             });
 
-            const data = await response.json();
             if (!data.token) {
                 setIsCorrectCredential(true);
                 setCredentialErrorMessage(data);
@@ -146,7 +141,6 @@ export default function Forms() {
                                 placeholder='Phone Number'
                                 type='number'
                                 min='10'
-                                max='10'
                             />
                             <ErrorMessage name='phone' />
                         </div>}

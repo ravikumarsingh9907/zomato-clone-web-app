@@ -7,7 +7,7 @@ import { formContext } from '../Context/form-context';
 import Footer from '../Component/Footer';
 import {useNavigation} from 'react-router';
 import UniversalLoader from '../Component/Layout/PreLoader';
-import { fetchData, fetchDataMultipart } from '../Utilities/api';
+import { fetchData, fetchDataMultipart, postData } from '../Utilities/api';
 
 const activity = {
     heading: 'Activity',
@@ -81,13 +81,11 @@ export async function loader({ params }) {
 }
 
 export async function action({ request, params }) {
-    const followResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${params.id}/follow`, {
-        method: request.method,
+    await postData(`/users/${params.id}/follow`, '', {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
 
-    await followResponse.json();
     return redirect(window.location.href);
 }

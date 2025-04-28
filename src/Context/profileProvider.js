@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { profileContext } from "./profile-context";
 import { useParams } from "react-router";
-import { fetchData, fetchDataMultipart } from "../Utilities/api";
+import { deleteData, fetchData, fetchDataMultipart, postData } from "../Utilities/api";
 
 export default function ProfileContext(props) {
     const [profilePhoto, setProfilePhoto] = useState(null);
@@ -24,26 +24,22 @@ export default function ProfileContext(props) {
     }, [profilePhoto]);
 
     const handleProfilePicture = async (data) => {
-        const uploadProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me/avatar', {
-            method: 'POST',
+        const result = await postData('/users/me/avatar', data, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            body: data
         });
-        const result = await uploadProfilePic.json();
+
         setProfilePhoto(result);
     }
 
     const handleRemoveProfilePhoto = async () => {
-        const removeProfilePic = await fetch('https://foodie-api-nine.vercel.app/users/me/avatar', {
-            method: 'DELETE',
+        const result = await deleteData('/users/me/avatar', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
 
-        const result =  await removeProfilePic.json();
         setProfilePhoto(result);
     }
 

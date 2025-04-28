@@ -3,7 +3,7 @@ import RestDetailHeader from '../Component/Restaurant/RestDetailHeader';
 import FoodDetailNavbar from '../Component/Restaurant/FoodDetailNavbar';
 import { Outlet, redirect } from 'react-router';
 import Footer from '../Component/Footer';
-import { fetchData } from '../Utilities/api';
+import { fetchData, postData, deleteData } from '../Utilities/api';
 
 export default function RestaurantDetail() {
     return (
@@ -28,20 +28,27 @@ export async function loader({ params }) {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
 
-    const reviews = await fetch(`/restaurants/${params.id}/reviews`);
+    const reviews = await fetchData(`/restaurants/${params.id}/reviews`);
 
     return { brand, user, bookmarks, reviews };
 }
 
 export async function action({ request, params }) {
-    const addToBookmarkResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${params.id}/bookmark`, {
-        method: request.method,
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-    });
+    let bookmark = ''
+    if(request.method === 'POST') {
+        bookmark = await postData(`/restaurants/${params.id}/bookmark`, '', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+    } else {
+        bookmark = await deleteData(`/restaurants/${params.id}/bookmark`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+    }
 
-    const bookmark = await addToBookmarkResponse.json();
     if (bookmark.success) {
         return redirect(window.location.href);
     }

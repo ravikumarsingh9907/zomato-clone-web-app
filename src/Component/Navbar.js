@@ -7,7 +7,7 @@ import { formContext } from '../Context/form-context';
 import { Outlet, Link, useLoaderData, Form, redirect } from 'react-router-dom';
 import SearchCard from './Layout/SearchCard';
 import { searchContext } from '../Context/search-context';
-import { fetchData, fetchDataMultipart } from '../Utilities/api';
+import { fetchData, fetchDataMultipart, postData } from '../Utilities/api';
 
 export default function Navbar() {
     const { user, profilePicture } = useLoaderData();
@@ -147,14 +147,12 @@ export async function loader() {
 }
 
 export async function action() {
-    const logoutResponse = await fetch('https://foodie-api-nine.vercel.app/users/logout', {
-        method: 'POST',
+    const logout = await postData('/users/logout', {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
 
-    const logout = await logoutResponse.json();
     if (logout) {
         return redirect(window.location.pathname);
     } else {

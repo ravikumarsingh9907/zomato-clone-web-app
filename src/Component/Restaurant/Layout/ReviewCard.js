@@ -5,7 +5,7 @@ import LikeCommentShare from './LikeCommentShare';
 import { useContext, useEffect, useState } from 'react';
 import { formContext } from '../../../Context/form-context';
 import RestaurantCard from './RestaurantCard';
-import { fetchData } from '../../../Utilities/api';
+import { deleteData, fetchData, postData } from '../../../Utilities/api';
 
 export default function ReviewCard({ data, follow, loggedInUser}) {
     const [isFollowing, setIsFollowing] = useState(false);
@@ -52,25 +52,21 @@ export default function ReviewCard({ data, follow, loggedInUser}) {
         e.preventDefault();
         if (!loggedInUser.error) {
             setFollowResponse(true);
-            let followResponse;
+            let follow;
 
             if (e.target.parentElement.method === 'post') {
-                followResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${e.target.value}/follow`, {
-                    method: e.target.parentElement.method,
+                follow = await postData(`/users/${e.target.value}/follow`, '', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
             } else {
-                followResponse = await fetch(`https://foodie-api-nine.vercel.app/users/${e.target.value}/follow`, {
-                    method: 'DELETE',
+                follow = await deleteData(`/users/${e.target.value}/follow`, '', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
             }
-
-            const follow = await followResponse.json();
 
             if (follow.success) {
                 setIsFollowing(!isFollowing);

@@ -6,6 +6,7 @@ import RestaurantList from "../Component/RestaurantList";
 import { useNavigation } from "react-router";
 import UniversalLoader from '../Component/Layout/PreLoader'
 import Footer from "../Component/Footer";
+import { fetchData } from "../Utilities/api";
 
 export default function Restaurant() {
     const navigation = useNavigation();
@@ -27,13 +28,11 @@ export default function Restaurant() {
 
 export async function loader({request}) {
     const urlObj = new URL(request.url);
-    const brandResponse = await fetch("https://foodie-api-nine.vercel.app/restaurants"+ urlObj.search, {
-        method: "GET",
+    const { brands } = await fetchData("/restaurants"+ urlObj.search, {
         headers: {
             'Content-Type': 'application/json',
         }
     });
-    const { brands } = await brandResponse.json();
 
     return {
         brands,

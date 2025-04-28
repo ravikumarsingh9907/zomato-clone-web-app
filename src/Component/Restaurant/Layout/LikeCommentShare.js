@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import './likeCommentShare.scss';
 import CommentProfile from '../../User/Layout/FollowersFollowingCard';
 import { formContext } from '../../../Context/form-context';
+import { deleteData, patchData } from '../../../Utilities/api';
 
 export default function LikeCommentShare({ data, reviewLikes, comments, loggedInUser, commentVisibility, setCommentVisibilty, handleCommentData }) {
     const [isLoading, setIsLoading] = useState(false);
@@ -38,26 +39,24 @@ export default function LikeCommentShare({ data, reviewLikes, comments, loggedIn
 
         setIsLoading(true);
         if (method === 'post') {
-            const likeEventResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
-                method: 'PATCH',
+            const result = await patchData(`/${data.brand._id}/reviews/${data._id}/like`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            const result = await likeEventResponse.json();
+
             if (result._id) {
                 setIsLiked(!isLiked);
             }
 
             setIsLoading(false);
         } else {
-            const likeEventResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
-                method: 'DELETE',
+            const result = await deleteData(`/restaurants/${data.brand._id}/reviews/${data._id}/like`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            const result = await likeEventResponse.json();
+
             if (result._id) {
                 setIsLiked(!isLiked);
             }
@@ -79,16 +78,11 @@ export default function LikeCommentShare({ data, reviewLikes, comments, loggedIn
         }
 
         setCommentSubmissionProcess(true);
-        const submitComment = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment`, {
-            method: 'PATCH',
+        const commentResponse = await patchData(`/restaurants/${data.brand._id}/reviews/${data._id}/comment`, JSON.stringify({ comment: commentValue }), {
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
-            body: JSON.stringify({ comment: commentValue })
         });
-
-        const commentResponse = await submitComment.json();
 
         if (commentResponse._id) {
             setCommentSubmissionProcess(false);
@@ -108,16 +102,12 @@ export default function LikeCommentShare({ data, reviewLikes, comments, loggedIn
 
     const handleEditCommentEvent = (commentId) => {
         return async () => {
-            const editResponse = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
-                method: 'PATCH',
+            const result = await patchData(`/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, JSON.stringify({ comment: editedComment }), {
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify({ comment: editedComment })
             });
 
-            const result = await editResponse.json();
             setIsEditable(false);
             handleCommentData(result);
         }
@@ -125,14 +115,12 @@ export default function LikeCommentShare({ data, reviewLikes, comments, loggedIn
 
     const handleDeleteCommentEvent = (commentId) => {
         return async () => {
-            const deleteCommment = await fetch(`https://foodie-api-nine.vercel.app/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
-                method: 'DELETE',
+            const result = await deleteData(`/restaurants/${data.brand._id}/reviews/${data._id}/comment/${commentId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
 
-            const result = await deleteCommment.json();
             if(result._id) {
                 handleCommentData(result);
             }
